@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="450.0" prefWidth="544.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar fx:id="menu" prefHeight="25.0" prefWidth="870.0" VBox.vgrow="NEVER">
+      <menus>
+            <Menu mnemonicParsing="false" text="Home">
+               <items>
+                <MenuItem fx:id="homepage" mnemonicParsing="false" text="Go to Homepage" />
+               </items></Menu>
+            <Menu fx:id="profile" mnemonicParsing="false" text="Profile">
+              <items>
+                  <MenuItem fx:id="viewProfile" mnemonicParsing="false" text="View my profile" />
+                  <MenuItem fx:id="updateProfile" mnemonicParsing="false" text="Update my profile" />
+              </items>
+            </Menu>
+      </menus>
+    </MenuBar>
+      <VBox prefHeight="388.0" prefWidth="504.0">
+         <children>
+            <Label prefHeight="41.0" prefWidth="484.0" text="Profile:">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Candara Italic" size="18.0" />
+               </font>
+            </Label>
+            <GridPane prefHeight="167.0" prefWidth="504.0">
+              <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="267.5" minWidth="10.0" prefWidth="132.5" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.0" minWidth="10.0" prefWidth="375.5" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="17.0" prefWidth="256.0" text="User name:" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="271.0" text="First name:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="259.0" text="Last name:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Text fx:id="username" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" />
+                  <Text fx:id="firstname" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Text fx:id="lastname" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <Label prefHeight="38.0" prefWidth="504.0" text="Last Records:">
+               <font>
+                  <Font name="Candara Italic" size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+            </Label>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="507.63671875" />
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </VBox>
+  </children>
+</VBox>

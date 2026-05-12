@@ -102,6 +102,8 @@ public class SignupController {
 					}
 					
 					username.clear();
+					firstname.clear();
+					lastname.clear();
 					password.clear();
 				} catch (SQLException e) {
 					// output a text if the user name already exists

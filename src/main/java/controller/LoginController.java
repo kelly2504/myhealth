@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,6 +25,10 @@ public class LoginController {
 	private TextField name;
 	@FXML
 	private PasswordField password;
+	@FXML
+	private TextField firstname;
+	@FXML 
+	private TextField lastname;
 	@FXML
 	private Label message;
 	@FXML
@@ -49,8 +54,8 @@ public class LoginController {
 					if (user != null) {
 						model.setCurrentUser(user);
 						try {
-							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeUpdatedView.fxml"));
-							HomeController homeController = new HomeController(stage, model, user);
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DashboardView.fxml"));
+							HomeController homeController = new HomeController(stage, model);
 							
 							loader.setController(homeController);
 							VBox root = loader.load();
@@ -59,6 +64,7 @@ public class LoginController {
 							stage.close();
 						}catch (IOException e) {
 							message.setText(e.getMessage());
+							message.setTextFill(Color.RED);
 						}
 						
 					} else {
@@ -101,7 +107,7 @@ public class LoginController {
 	}
 	
 	public void showStage(Pane root) {
-		Scene scene = new Scene(root, 500, 300);
+		Scene scene = new Scene(root, 500, 400);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Welcome");

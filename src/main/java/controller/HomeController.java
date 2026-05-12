@@ -1,9 +1,16 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Label;
+import java.awt.Menu;
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Model;
@@ -13,33 +20,53 @@ public class HomeController {
 	private Model model;
 	private Stage stage;
 	private Stage parentStage;
-	private User user;
+	@FXML
+	private MenuItem homepage;
 	@FXML
 	private Text welcome;
 	@FXML
 	private MenuItem viewProfile; // Corresponds to the Menu item "viewProfile" in HomeView.fxml
 	@FXML
 	private MenuItem updateProfile; // // Corresponds to the Menu item "updateProfile" in HomeView.fxml
+	@FXML
+	private Text message;
 	
 	//added user to allow for polymorphism
-	public HomeController(Stage parentStage, Model model, User user) {
+	public HomeController(Stage parentStage, Model model) {
 		this.stage = new Stage();
 		this.parentStage = parentStage;
 		this.model = model;
-		this.user = user;
 	}
 	
 	// Add your code to complete the functionality of the program
 	@FXML 
 	public void initialize() {
+		User user = model.getCurrentUser();
+		welcome.setText("Welcome back " + user.getFirstname() + " " + user.getLastname() + "!");
+		
+		viewProfile.setOnAction(event -> {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileView.fxml"));
+				
+				ProfileController profileController = new ProfileController(stage, model);
+				
+				loader.setController(profileController);
+				VBox root = loader.load();
+				
+				profileController.showStage(root);
+
+			} catch (IOException e) {
+				message.setText(e.getMessage());
+			}
+		});
+		
 		
 	}
 	
 	
 	
-	
 	public void showStage(Pane root) {
-		Scene scene = new Scene(root, 500, 300);
+		Scene scene = new Scene(root, 500, 400);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Home");
