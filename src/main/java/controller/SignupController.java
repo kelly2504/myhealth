@@ -116,6 +116,7 @@ public class SignupController {
 				status.setTextFill(Color.RED);
 			}
 		});
+		
 		//TODO -- Allow users to re-enter a new 
 		close.setOnAction(event -> {
 			stage.close();

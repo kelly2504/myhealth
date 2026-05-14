@@ -60,4 +60,54 @@ public class UserDaoImpl implements UserDao {
 			return new User(username, firstname, lastname, password);
 		} 
 	}
+	
+	//when both change
+	@Override
+	public  void changeDetails(String username, String firstname, String lastname, String password) throws SQLException {
+		String sql = "UPDATE " + TABLE_NAME + " SET firstname = ?, lastname = ? WHERE username = ? AND password = ?";
+		try (Connection connection = Database.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
+			stmt.setString(1, firstname);
+			stmt.setString(2, lastname);
+			stmt.setString(3, username);
+			stmt.setString(4, password);
+			
+			stmt.executeUpdate();
+			
+			
+		}
+	}
+	
+	//only first name
+	@Override
+	public  void changeDetails(String username, String firstname, String password) throws SQLException {
+		String sql = "UPDATE " + TABLE_NAME + " SET firstname = ? WHERE username = ? AND password = ?";
+		try (Connection connection = Database.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
+			stmt.setString(1, firstname);
+			stmt.setString(2, username);
+			stmt.setString(3, password);
+			
+			stmt.executeUpdate();
+			
+			
+		}
+	}
+
+	//only last name
+		@Override
+		public  void changeDetails(String username, String lastname, String password, int i) throws SQLException {
+			String sql = "UPDATE " + TABLE_NAME + " SET lastname = ? WHERE username = ? AND password = ?";
+			try (Connection connection = Database.getConnection();
+					PreparedStatement stmt = connection.prepareStatement(sql);) {
+				stmt.setString(1, lastname);
+				stmt.setString(2, username);
+				stmt.setString(3, password);
+				
+				stmt.executeUpdate();
+				
+				
+			}
+		}
+	
 }

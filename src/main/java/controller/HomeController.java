@@ -1,7 +1,5 @@
 package controller;
 
-import java.awt.Color;
-import java.awt.Label;
 import java.awt.Menu;
 import java.io.IOException;
 
@@ -9,6 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -54,11 +55,28 @@ public class HomeController {
 				VBox root = loader.load();
 				
 				profileController.showStage(root);
-
+				
 			} catch (IOException e) {
 				message.setText(e.getMessage());
 			}
 		});
+		
+		updateProfile.setOnAction(event -> {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateProfileView.fxml"));
+				
+				UpdateProfileController updateController = new UpdateProfileController(stage, model);
+				loader.setController(updateController);
+				GridPane root = loader.load();
+				
+				updateController.showStage(root);
+			} catch (IOException e) {
+				message.setText(e.getMessage());
+			}
+		
+		});
+		
+		
 		
 		
 	}
