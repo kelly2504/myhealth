@@ -43,7 +43,7 @@ public class HomeController {
 	@FXML 
 	public void initialize() {
 		User user = model.getCurrentUser();
-		welcome.setText("Welcome back " + user.getFirstname() + " " + user.getLastname() + "!");
+		welcome.setText("Welcome back " + user.getUsername() + "!");
 		
 		viewProfile.setOnAction(event -> {
 			try {
