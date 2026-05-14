@@ -68,7 +68,11 @@
                   <HBox prefHeight="100.0" prefWidth="177.0" />
                   <HBox prefHeight="107.0" prefWidth="200.0">
                      <children>
-                        <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" translateY="40.0" wrappingWidth="205.13671875" />
+                        <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0">
+                           <HBox.margin>
+                              <Insets top="30.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
                   </HBox>
                </children>

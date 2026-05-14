@@ -30,7 +30,7 @@ public class HomeController {
 	@FXML
 	private MenuItem updateProfile; // // Corresponds to the Menu item "updateProfile" in HomeView.fxml
 	@FXML
-	private Text message;
+	private Label message;
 	
 	//added user to allow for polymorphism
 	public HomeController(Stage parentStage, Model model) {
@@ -58,6 +58,7 @@ public class HomeController {
 				
 			} catch (IOException e) {
 				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
 			}
 		});
 		
@@ -72,6 +73,7 @@ public class HomeController {
 				updateController.showStage(root);
 			} catch (IOException e) {
 				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
 			}
 		
 		});

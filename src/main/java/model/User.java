@@ -5,6 +5,7 @@ public class User {
 	private String firstname; //added user's first name
 	private String lastname; //added user's last name
 	private String password;
+	private Record_List records; //added a list of records
 
 	public User() {
 	}
@@ -51,5 +52,13 @@ public class User {
 	
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	public Record_List getRecords() {
+		return records;
+	}
+
+	public void setRecords(Record_List records) {
+		this.records = records;
 	}
 }

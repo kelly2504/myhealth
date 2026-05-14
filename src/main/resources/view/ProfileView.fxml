@@ -89,7 +89,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="507.63671875" />
+            <Label fx:id="message" alignment="CENTER" prefHeight="17.0" prefWidth="517.0" textAlignment="CENTER" />
          </children>
          <VBox.margin>
             <Insets left="20.0" right="20.0" top="20.0" />

@@ -32,7 +32,7 @@ public class ProfileController {
 	@FXML
 	private MenuItem updateProfile; 
 	@FXML
-	private Text message;
+	private Label message;
 	
 	public ProfileController(Stage stage, Model model){
 		this.stage = stage;
@@ -58,7 +58,7 @@ public class ProfileController {
 				stage.close();
 			}catch (IOException e) {
 				message.setText(e.getMessage());	
-			
+				message.setTextFill(Color.RED);
 			}
 		});
 		
@@ -73,6 +73,7 @@ public class ProfileController {
 				updateController.showStage(root);
 			} catch (IOException e) {
 				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
 			}
 		
 		});

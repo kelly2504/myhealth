@@ -38,7 +38,7 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Text>
-      <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="MYHEALTH" textAlignment="CENTER" wrappingWidth="507.9375">
+      <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="MyHealth" textAlignment="CENTER" wrappingWidth="507.9375">
          <font>
             <Font name="Serif Regular" size="28.0" />
          </font>

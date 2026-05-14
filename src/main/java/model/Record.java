@@ -1,15 +1,19 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Record {
 	//a record contains the following: 
 	// * weight
 	// * temperature
 	// * blood pressure
 	// * short textual note
+	private User user;
 	private double weight;
 	private double temperature;
 	private double blood_pressure;
 	private String note;
+	private LocalDate date;
 	
 	public Record() {
 		
@@ -20,6 +24,7 @@ public class Record {
 		this.temperature = temperature;
 		this.blood_pressure = blood_pressure;
 		this.note = note;
+		this.setDate(LocalDate.now());
 	}
 
 	public double getWeight() {
@@ -52,5 +57,21 @@ public class Record {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
