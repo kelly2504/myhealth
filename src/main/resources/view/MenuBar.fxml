@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar fx:id="Menu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+  <menus>
+    <Menu mnemonicParsing="false" text="Home">
+      <items>
+        <MenuItem fx:id="Homepage" mnemonicParsing="false" text="Go to Homepage" />
+      </items>
+    </Menu>
+      <Menu mnemonicParsing="false" text="Profile">
+        <items>
+          <MenuItem fx:id="viewProfile" mnemonicParsing="false" text="View Profile" />
+            <MenuItem fx:id="updateProfile" mnemonicParsing="false" text="Update Profile" />
+        </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Exit">
+        <items>
+          <MenuItem fx:id="exit" mnemonicParsing="false" text="Exit and Log out" />
+        </items>
+      </Menu>
+  </menus>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</MenuBar>

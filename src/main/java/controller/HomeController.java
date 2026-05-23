@@ -5,9 +5,13 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
@@ -17,7 +21,7 @@ import javafx.stage.Stage;
 import model.Model;
 import model.User;
 
-public class HomeController {
+public class HomeController{
 	private Model model;
 	private Stage stage;
 	private Stage parentStage;
@@ -31,7 +35,13 @@ public class HomeController {
 	private MenuItem updateProfile; // // Corresponds to the Menu item "updateProfile" in HomeView.fxml
 	@FXML
 	private Label message;
-	
+	@FXML 
+	private Button AddRecord;
+//	@FXML 
+//	private VBox records_table;
+//	@FXML 
+//	private RecordTableController recordTableController;
+//	
 	//added user to allow for polymorphism
 	public HomeController(Stage parentStage, Model model) {
 		this.stage = new Stage();
@@ -78,6 +88,23 @@ public class HomeController {
 		
 		});
 		
+		AddRecord.setOnAction(event -> {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddRecordView.fxml"));
+				
+				AddRecordController addRecordController = new AddRecordController(stage, model);
+				loader.setController(addRecordController);
+				GridPane root = loader.load();
+				
+				addRecordController.showStage(root);
+				
+			} catch (IOException e) {
+				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
+			}
+		});
+		
+		
 		
 		
 		
@@ -86,7 +113,7 @@ public class HomeController {
 	
 	
 	public void showStage(Pane root) {
-		Scene scene = new Scene(root, 500, 400);
+		Scene scene = new Scene(root, 800, 700);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Home");

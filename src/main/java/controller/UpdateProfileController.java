@@ -85,7 +85,6 @@ public class UpdateProfileController {
 					}
 				}
 				
-
 				firstname.setPromptText(user.getFirstname());
 				lastname.setPromptText(user.getLastname());
 			} else {

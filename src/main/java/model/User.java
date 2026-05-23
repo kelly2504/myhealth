@@ -15,6 +15,10 @@ public class User {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.password = password;
+		
+		//set up list of records for the user 
+		records = new Record_List();
+		
 	}
 	
 //	public User(String username, String password) {
