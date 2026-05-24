@@ -55,6 +55,9 @@ public class HomeController{
 		User user = model.getCurrentUser();
 		welcome.setText("Welcome back " + user.getUsername() + "!");
 		
+		//check if the user has any records and add them to the table 
+		
+		
 		viewProfile.setOnAction(event -> {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileView.fxml"));

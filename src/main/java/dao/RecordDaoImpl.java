@@ -3,14 +3,21 @@ package dao;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import model.HealthRecord;
+import model.Record_List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class RecordDaoImpl implements RecordDao {
 	private final String TABLE_NAME = "records";
+	
+	//each user has their own record list 
+	private final Map<String, Record_List> userRecordLists = new HashMap<>();
 	
 	public RecordDaoImpl() {
 	}
@@ -24,8 +31,10 @@ public class RecordDaoImpl implements RecordDao {
 			" weight DECIMAL," + " temperature DECIMAL," + " bloodpressure DECIMAL," + "note VARCHAR(50), " + "PRIMARY KEY (recordNumber))";
 			stmt.executeUpdate(sql);
 		} 
-
+		
 	}
+	
+	
 	
 	@Override
 	public HealthRecord addRecord(String username, double weight, double temperature, double blood_pressure, String note) throws SQLException{
@@ -59,9 +68,36 @@ public class RecordDaoImpl implements RecordDao {
 				stmt.setString(1, recordNumber);
 				stmt.setString(2, username);
 				
-				stmt.executeUpdate(sql);
+				stmt.executeUpdate();
 		}
 				
+	}
+	
+	public Record_List viewRecords(String username) throws SQLException{
+		Record_List record_List = new Record_List();
+		
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+		try (Connection connection = Database.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, username);
+			
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					HealthRecord record = new HealthRecord();
+					record.setRecord_number(rs.getString("recordNumber"));
+					record.setUser(username);
+					record.setDate(rs.getDate("date").toLocalDate());
+					record.setWeight(rs.getDouble("weight"));
+					record.setTemperature(rs.getDouble("temperature"));
+					record.setBlood_pressure(rs.getDouble("bloodpressure"));
+					record.setNote(rs.getString("note"));
+					
+					//add to list of records
+					record_List.add_record(record);
+				}
+			}
+		}
+		return record_List;
 	}
 	
 	public void updateDetails() {

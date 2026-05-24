@@ -70,6 +70,7 @@ public class AddRecordController {
 			
 			//check if all the textfields are empty - message at least one of the text fields have to change
 			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !blood_pressure.getText().isEmpty()) {
+				//TODO: ADD PROPER VALIDATION FOR INPUTS 
 				if (!weight.getText().isEmpty()) {
 					temp_weight = Double.parseDouble(weight.getText());
 				}

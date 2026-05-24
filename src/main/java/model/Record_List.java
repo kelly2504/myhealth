@@ -1,13 +1,17 @@
 package model;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.util.Comparator;
 
 //stores the record that belongs specifically to a certain user
 public class Record_List {
-	ArrayList<HealthRecord> records;
+//	ArrayList<HealthRecord> records;
+	private final ObservableList<HealthRecord> records = FXCollections.observableArrayList();
+	
 	
 	public Record_List() {
-		records = new ArrayList<>();
 	}
 	
 	public void add_record(HealthRecord record) {
@@ -25,11 +29,19 @@ public class Record_List {
 	
 	public HealthRecord get_latest_record() {
 		//TODO IMPLEMENT STREAM TO SORT/COMPARE THROUGH THE MAP AND GET THE LASTEST RECORD BASED ON DATE
-		return records.getLast();
+//		return records.getLast();
+		//returns null if list is empty
+		return records.stream()
+				.max(Comparator.comparing(HealthRecord::getDate))
+				.orElse(null);
 	}
 	
 	public int get_length() {
 		return records.size();
+	}
+	
+	public ObservableList<HealthRecord> getObservableList(){
+		return records;
 	}
 	
 	//TODO -- RECORDS SHOULD BE CHECKED AS PER THE CURRENT USERNAME - IF USERNAME DOESNT MATCH TO THE ONE BEING INSERTED IN THE 
