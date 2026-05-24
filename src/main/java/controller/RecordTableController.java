@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.SQLException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -8,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
+import model.Record_List;
+import model.User;
 import javafx.scene.control.Button;
 
 public class RecordTableController {
@@ -34,10 +38,13 @@ public class RecordTableController {
 		this.stage = stage;
 		this.model = model;
 	}
+	
 	@FXML
 	public void initialize() {
+		User user = model.getCurrentUser();
 		
 		setUpColumns();
+		
 		
 		view_record.setCellFactory(col -> new TableCell<HealthRecord, Void>() {
 			private final Button btn = new Button("View");
@@ -61,19 +68,27 @@ public class RecordTableController {
 				btn.setOnAction(e -> {
 					//TODO: IMPLEMENT DELETE
 					System.out.println("Delete btn Clicked!");
-				});
-				
-				
-				
+				});		
 			}
 		});
-		
-		
+			
 	}
 	
 	private void setUpColumns() {
-		record_number.setCellValueFactory(new PropertyValueFactory<>("recordNumber"));
+		record_number.setCellValueFactory(new PropertyValueFactory<>("record_number"));
 		record_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 		record_note.setCellValueFactory(new PropertyValueFactory<>("note"));
+	}
+	
+	public void loadUserRecords(User user) throws SQLException {
+		try {
+			Record_List fetchedList = model.getRecordDao().viewRecords(user.getUsername());
+			user.setRecords(fetchedList);
+
+	        // Bind the user's list to the table
+	        records_table.setItems(user.getRecords().getObservableList());
+		} catch (NullPointerException e) {
+			System.err.println(e);
+		}
 	}
 }

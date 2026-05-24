@@ -64,7 +64,7 @@
             </VBox>
             <VBox prefHeight="314.0" prefWidth="544.0">
    		 	<children>
-        	<fx:include source="/view/RecordTableView.fxml">
+        	<fx:include fx:id="recordTableController" source="/view/RecordTableView.fxml">
 	        	<VBox.margin>
 	                <Insets left="16.0" />
 	            </VBox.margin>

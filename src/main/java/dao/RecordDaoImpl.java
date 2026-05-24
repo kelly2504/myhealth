@@ -73,6 +73,7 @@ public class RecordDaoImpl implements RecordDao {
 				
 	}
 	
+	@Override
 	public Record_List viewRecords(String username) throws SQLException{
 		Record_List record_List = new Record_List();
 		
@@ -82,7 +83,7 @@ public class RecordDaoImpl implements RecordDao {
 			stmt.setString(1, username);
 			
 			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
+				while (rs.next()) {
 					HealthRecord record = new HealthRecord();
 					record.setRecord_number(rs.getString("recordNumber"));
 					record.setUser(username);

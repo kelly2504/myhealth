@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.Menu;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Model;
+import model.Record_List;
 import model.User;
 
 public class HomeController{
@@ -39,8 +41,8 @@ public class HomeController{
 	private Button AddRecord;
 //	@FXML 
 //	private VBox records_table;
-//	@FXML 
-//	private RecordTableController recordTableController;
+	@FXML 
+	private RecordTableController recordTableController;
 //	
 	//added user to allow for polymorphism
 	public HomeController(Stage parentStage, Model model) {
@@ -56,7 +58,12 @@ public class HomeController{
 		welcome.setText("Welcome back " + user.getUsername() + "!");
 		
 		//check if the user has any records and add them to the table 
-		
+		try {
+			recordTableController.loadUserRecords(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		viewProfile.setOnAction(event -> {
 			try {
