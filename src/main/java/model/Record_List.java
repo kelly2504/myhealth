@@ -40,6 +40,10 @@ public class Record_List {
 		return records.size();
 	}
 	
+	public HealthRecord get_record_at_index(int index) {
+		return records.get(index);
+	}
+	
 	public ObservableList<HealthRecord> getObservableList(){
 		return records;
 	}

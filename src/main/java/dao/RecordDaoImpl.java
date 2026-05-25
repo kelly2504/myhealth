@@ -15,38 +15,38 @@ import java.sql.ResultSet;
 
 public class RecordDaoImpl implements RecordDao {
 	private final String TABLE_NAME = "records";
-	
-	//each user has their own record list 
+
+	// each user has their own record list
 	private final Map<String, Record_List> userRecordLists = new HashMap<>();
-	
+
 	public RecordDaoImpl() {
 	}
 
 	@Override
 	public void setup() throws SQLException {
-		try (Connection connection = Database.getConnection();
-				Statement stmt = connection.createStatement();) {
+		try (Connection connection = Database.getConnection(); Statement stmt = connection.createStatement();) {
 			// TODO: IMPLEMENT ACTUAL SQL TO CREATE RECORD TABLE
-			String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (recordNumber VARCHAR(7) NOT NULL," + " username VARCHAR(10) NOT NULL," +  " date DATETIME NOT NULL," +
-			" weight DECIMAL," + " temperature DECIMAL," + " bloodpressure DECIMAL," + "note VARCHAR(50), " + "PRIMARY KEY (recordNumber))";
+			String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (recordNumber VARCHAR(7) NOT NULL,"
+					+ " username VARCHAR(10) NOT NULL," + " date DATETIME NOT NULL," + " weight DECIMAL,"
+					+ " temperature DECIMAL," + " bloodpressure DECIMAL," + " note VARCHAR(50), "
+					+ "PRIMARY KEY (recordNumber))";
 			stmt.executeUpdate(sql);
-		} 
-		
+		}
+
 	}
-	
-	
-	
+
 	@Override
-	public HealthRecord addRecord(String username, double weight, double temperature, double blood_pressure, String note) throws SQLException{
+	public HealthRecord addRecord(String username, double weight, double temperature, double blood_pressure,
+			String note) throws SQLException {
 		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
-			
-			//TODO: add recordNumber from recordNumberGenerator
+
+			// TODO: add recordNumber from recordNumberGenerator
 			String recordNumber = RecordNumberGenerator.getInstance(connection).nextFormatted();
-			
+
 			LocalDate date = LocalDate.now();
-			
+
 			stmt.setString(1, recordNumber);
 			stmt.setString(2, username);
 			stmt.setDate(3, java.sql.Date.valueOf(date));
@@ -54,34 +54,36 @@ public class RecordDaoImpl implements RecordDao {
 			stmt.setDouble(5, temperature);
 			stmt.setDouble(6, blood_pressure);
 			stmt.setString(7, note);
-			
+
 			stmt.executeUpdate();
 			return new HealthRecord(recordNumber, username, date, weight, temperature, blood_pressure, note);
-			
-		}	
+
+		}
 	}
+
 	@Override
-	public void deleteRecord(String recordNumber, String username) throws SQLException{
+	public void deleteRecord(String recordNumber, String username) throws SQLException {
 		String sql = "DELETE FROM " + TABLE_NAME + " WHERE recordNumber = ? AND username = ?";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
-				stmt.setString(1, recordNumber);
-				stmt.setString(2, username);
-				
-				stmt.executeUpdate();
+			stmt.setString(1, recordNumber);
+			stmt.setString(2, username);
+
+			stmt.executeUpdate();
 		}
-				
+
 	}
-	
+
 	@Override
-	public Record_List viewRecords(String username) throws SQLException{
+	public Record_List viewRecords(String username) throws SQLException {
 		Record_List record_List = new Record_List();
-		
-		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+		System.out.println("View Records called");
+
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? ORDER BY date DESC";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, username);
-			
+
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					HealthRecord record = new HealthRecord();
@@ -92,18 +94,22 @@ public class RecordDaoImpl implements RecordDao {
 					record.setTemperature(rs.getDouble("temperature"));
 					record.setBlood_pressure(rs.getDouble("bloodpressure"));
 					record.setNote(rs.getString("note"));
-					
-					//add to list of records
+
+					// add to list of records
+					System.out.println(rs.getString("recordNumber") + " added!");
 					record_List.add_record(record);
 				}
+
 			}
+
 		}
+		System.out.println("returning list!");
 		return record_List;
-	}
-	
-	public void updateDetails() {
-		
+
 	}
 
+	public void updateDetails() {
+
+	}
 
 }

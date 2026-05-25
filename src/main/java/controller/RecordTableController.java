@@ -39,12 +39,21 @@ public class RecordTableController {
 		this.model = model;
 	}
 	
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+	
+	public void setModel(Model model) {
+		this.model = model;
+	}
+	
 	@FXML
 	public void initialize() {
-		User user = model.getCurrentUser();
 		
+		
+		System.out.println("Setting up table columns");
 		setUpColumns();
-		
+		System.out.println("Set up table columns");
 		
 		view_record.setCellFactory(col -> new TableCell<HealthRecord, Void>() {
 			private final Button btn = new Button("View");
@@ -56,7 +65,7 @@ public class RecordTableController {
 			}
 			
 			@Override
-			public void updateItem(Void item, boolean empty) {
+			protected void updateItem(Void item, boolean empty) {
 				super.updateItem(item, empty);
 				setGraphic(empty ? null : btn);
 			}
@@ -70,23 +79,70 @@ public class RecordTableController {
 					System.out.println("Delete btn Clicked!");
 				});		
 			}
+			
+			@Override
+			protected void updateItem(Void item, boolean empty) {
+				super.updateItem(item, empty);
+				setGraphic(empty ? null : btn);
+			}
 		});
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setUpColumns() {
 		record_number.setCellValueFactory(new PropertyValueFactory<>("record_number"));
 		record_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 		record_note.setCellValueFactory(new PropertyValueFactory<>("note"));
+		
+		
 	}
 	
-	public void loadUserRecords(User user) throws SQLException {
+	public void loadCurrentUser() {
+        User user = model.getCurrentUser();
+        try {
+            loadUserRecords();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+	
+	
+	
+	public void loadUserRecords() throws SQLException {
+		User user = model.getCurrentUser();
 		try {
-			Record_List fetchedList = model.getRecordDao().viewRecords(user.getUsername());
-			user.setRecords(fetchedList);
+//			System.out.println("checkpoint 1");
+//			Record_List fetchedList = model.getRecordDao().viewRecords(user.getUsername());
+//			if (fetchedList != null) {
+//				user.setRecords(fetchedList);
+//				System.out.println("checkpoint 2");
+//				// Bind the user's list to the table
+//				if (user.getRecords() != null) {
+//					System.out.println("checkpoint 3");
+//					records_table.setItems(user.getRecords().getObservableList());
+//					System.out.println("checkpoint 4");
+//				} else {
+//					System.err.println("no records for user " + user.getUsername());
+//				}
+//		        
+//			}
+			
+			System.out.println("Loading records for: " + user.getUsername());
 
-	        // Bind the user's list to the table
-	        records_table.setItems(user.getRecords().getObservableList());
+		    Record_List fetchedList = model.getRecordDao().viewRecords(user.getUsername());
+		    System.out.println("flag");
+		    
+		    
+		    user.setRecords(fetchedList);
+		    
+		    System.out.println("Setting list");
+		    records_table.setItems(user.getRecords().getObservableList());
+		    
+		    System.out.println("List set");
+
+		    System.out.println("Table loaded with " + fetchedList.get_length() + " records");
+			       
 		} catch (NullPointerException e) {
 			System.err.println(e);
 		}

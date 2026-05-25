@@ -124,7 +124,12 @@ public class AddRecordController {
 				message.setTextFill(Color.RED);
 			}
 				
-	});
+		});
+		
+		cancel.setOnAction(event -> {
+			stage.close();
+			parentStage.show();
+		});
 	}
 	
 	

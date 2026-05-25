@@ -62,7 +62,11 @@ public class User {
 		return records;
 	}
 
-	public void setRecords(Record_List records) {
-		this.records = records;
+	public void setRecords(Record_List new_records) {
+		records = new Record_List();
+		for (int i = 0; i < new_records.get_length(); i++) {
+			System.out.println(new_records.get_record_at_index(i).getRecord_number());
+			records.add_record(new_records.get_record_at_index(i));
+		}
 	}
 }
