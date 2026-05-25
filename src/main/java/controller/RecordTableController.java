@@ -75,8 +75,23 @@ public class RecordTableController {
 			private final Button btn = new Button("Delete");
 			{
 				btn.setOnAction(e -> {
-					//TODO: IMPLEMENT DELETE
-					System.out.println("Delete btn Clicked!");
+//					//TODO: IMPLEMENT DELETE
+//					System.out.println("Delete btn Clicked!");
+					
+					HealthRecord record = getTableRow().getItem();
+					
+					if (record != null) {
+						try {
+							model.getRecordDao()
+							.deleteRecord(record.getRecord_number(), record.getUser());
+							
+							model.getCurrentUser().getRecords().remove_record(record);
+							
+							System.out.println("Deleted: " + record.getRecord_number());
+						} catch (SQLException ex) {
+							System.err.println("Delete failed: " + ex.getMessage());
+						}
+					}
 				});		
 			}
 			

@@ -79,7 +79,7 @@ public class RecordDaoImpl implements RecordDao {
 		Record_List record_List = new Record_List();
 		System.out.println("View Records called");
 
-		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? ORDER BY date DESC";
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? ORDER BY date DESC, recordNumber DESC";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, username);
