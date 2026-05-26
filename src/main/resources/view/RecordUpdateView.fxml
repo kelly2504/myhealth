@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -23,11 +25,11 @@
           <RowConstraints maxHeight="36.5" minHeight="10.0" prefHeight="36.5" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="34.5" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="64.5" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="29.5" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="28.5" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="27.5" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="81.5" minHeight="10.0" prefHeight="77.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="81.5" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="30.5" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="30.5" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="74.5" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="81.5" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="65.5" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="61.5" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -101,30 +103,40 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="weight" strokeType="OUTSIDE" strokeWidth="0.0" text="weight" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <font>
-                  <Font name="Times New Roman" size="14.0" />
-               </font>
-            </Text>
-            <Text fx:id="temperature" strokeType="OUTSIDE" strokeWidth="0.0" text="temperature" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <font>
-                  <Font name="Times New Roman" size="14.0" />
-               </font>
-            </Text>
-            <Text fx:id="blood_pressure" strokeType="OUTSIDE" strokeWidth="0.0" text="blood_pressure" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <font>
-                  <Font name="Times New Roman" size="14.0" />
-               </font>
-            </Text>
-            <Button fx:id="download" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Download" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <Button fx:id="save" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
             <Button fx:id="go_back" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
-            <Text fx:id="note" strokeType="OUTSIDE" strokeWidth="0.0" text="note" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font name="Times New Roman" size="14.0" />
-               </font>
-            </Text>
-            <Button fx:id="edit" alignment="BOTTOM_CENTER" contentDisplay="RIGHT" layoutX="508.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
             <Label fx:id="message" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <TextField fx:id="weight" prefHeight="25.0" prefWidth="189.0" promptText="cuurentWeight" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="KG" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <TextField fx:id="temperature" prefHeight="25.0" prefWidth="189.0" promptText="currentTemp" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="°C">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <children>
+                  <TextField fx:id="blood_pressure" prefHeight="25.0" prefWidth="189.0" promptText="currrentBloodPressure" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="mmHg">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <TextArea fx:id="note" prefHeight="92.0" prefWidth="314.0" promptText="current note" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <HBox prefHeight="69.0" prefWidth="600.0">

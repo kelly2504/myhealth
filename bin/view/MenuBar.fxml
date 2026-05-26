@@ -9,7 +9,7 @@
   <menus>
     <Menu mnemonicParsing="false" text="Home">
       <items>
-        <MenuItem fx:id="Homepage" mnemonicParsing="false" text="Go to Homepage" />
+        <MenuItem fx:id="homepage" mnemonicParsing="false" text="Go to Homepage" />
       </items>
     </Menu>
       <Menu mnemonicParsing="false" text="Profile">

@@ -26,7 +26,7 @@ public class AddRecordController {
 	@FXML
 	private TextField temperature;
 	@FXML
-	private TextField blood_pressure;
+	private TextField bloodPressure;
 	@FXML
 	private TextArea note;
 	@FXML
@@ -52,41 +52,87 @@ public class AddRecordController {
 				
 		submit.setOnAction(event -> {
 			
-			double temp_weight = 0.0;
-			double temp_temperature = 0.0;
-			double temp_blood_pressure = 0.0;
-			String temp_note = "";
+			double tempWeight = 0.0;
+			double tempTemperature = 0.0;
+			double tempBloodPressure = 0.0;
+			String tempNote = "";
 			
 			
 			//default values based on previous 
 		
 			if (user.getRecords() != null) {
 				HealthRecord last_record = user.getRecords().get_latest_record();
-				temp_weight = last_record.getWeight();
-				temp_temperature = last_record.getTemperature();
-				temp_blood_pressure = last_record.getBlood_pressure();
-				temp_note = last_record.getNote();
+				tempWeight = last_record.getWeight();
+				tempTemperature = last_record.getTemperature();
+				tempBloodPressure = last_record.getBlood_pressure();
+				tempNote = last_record.getNote();
 			}
 			
 			//check if all the textfields are empty - message at least one of the text fields have to change
-			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !blood_pressure.getText().isEmpty()) {
+			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !bloodPressure.getText().isEmpty() && !note.getText().isEmpty()) {
 				//TODO: ADD PROPER VALIDATION FOR INPUTS 
 				if (!weight.getText().isEmpty()) {
-					temp_weight = Double.parseDouble(weight.getText());
+					try {
+						tempWeight = Double.parseDouble(weight.getText());
+					} catch (NumberFormatException e) {
+						message.setText("Weight should be a valid number");
+						message.setTextFill(Color.RED);
+						return;
+					}	
+					
+					if (tempWeight < 0 || tempWeight > 1000) {
+						message.setText("Weight invalid");
+						message.setTextFill(Color.RED);
+						return;
+					}
 				}
 				
 				if (!temperature.getText().isEmpty()) {
-					temp_temperature = Double.parseDouble(temperature.getText());
+					try {
+						tempTemperature = Double.parseDouble(temperature.getText());
+					} catch (NumberFormatException e){
+						message.setText("Temperature should be a vaid number");
+						message.setTextFill(Color.RED);
+						return;
+					}
+					
+					
+					if (tempTemperature < 0 || tempTemperature > 50) {
+						message.setText("Temperature Invalid");
+						message.setTextFill(Color.RED);
+						return;
+					}
 				}
 				
-				if (!blood_pressure.getText().isEmpty()) {
-					temp_blood_pressure = Double.parseDouble(blood_pressure.getText());
+				if (!bloodPressure.getText().isEmpty()) {
+					try {
+						tempBloodPressure = Double.parseDouble(bloodPressure.getText());
+					} catch (NumberFormatException e) {
+						message.setText("Blood pressure should be a valid number");
+						message.setTextFill(Color.RED);
+						return;
+					}
+					
+					if (tempBloodPressure < 0 || tempBloodPressure > 300) {
+						message.setText("Blood pressure invalid");
+						message.setTextFill(Color.RED);
+						return;
+					}
+					
 				}
 				
 				if (!note.getText().isEmpty()) {
-					temp_note = note.getText();
+					//TODO: verify less 50 words
+					
+					tempNote = note.getText();
+					
+					String[] words = tempNote.trim().split(" ");
+					if (words.length > 50) {
+						message.setText("Note should be not be more than 50 words.");
+						message.setTextFill(Color.RED);
+					}	
+					
 				}
-				
 					
 			} else {
 				message.setText("At least one record metric should be entered");
@@ -97,7 +143,7 @@ public class AddRecordController {
 			HealthRecord record;
 			//get recordDao to create new record then add it to the record list of the user.
 			try {
-				record = model.getRecordDao().addRecord(user.getUsername(), temp_weight, temp_temperature, temp_blood_pressure, temp_note);
+				record = model.getRecordDao().addRecord(user.getUsername(), tempWeight, tempTemperature, tempBloodPressure, tempNote);
 				
 				if (record != null) {
 					//add record to user's list

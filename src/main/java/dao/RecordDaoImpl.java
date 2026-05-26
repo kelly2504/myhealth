@@ -28,7 +28,7 @@ public class RecordDaoImpl implements RecordDao {
 			// TODO: IMPLEMENT ACTUAL SQL TO CREATE RECORD TABLE
 			String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (recordNumber VARCHAR(7) NOT NULL,"
 					+ " username VARCHAR(10) NOT NULL," + " date DATETIME NOT NULL," + " weight DECIMAL,"
-					+ " temperature DECIMAL," + " bloodpressure DECIMAL," + " note VARCHAR(50), "
+					+ " temperature DECIMAL," + " bloodpressure DECIMAL," + " note VARCHAR(250), "
 					+ "PRIMARY KEY (recordNumber))";
 			stmt.executeUpdate(sql);
 		}
@@ -36,7 +36,7 @@ public class RecordDaoImpl implements RecordDao {
 	}
 
 	@Override
-	public HealthRecord addRecord(String username, double weight, double temperature, double blood_pressure,
+	public HealthRecord addRecord(String username, double weight, double temperature, double bloodPressure,
 			String note) throws SQLException {
 		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = Database.getConnection();
@@ -52,11 +52,11 @@ public class RecordDaoImpl implements RecordDao {
 			stmt.setDate(3, java.sql.Date.valueOf(date));
 			stmt.setDouble(4, weight);
 			stmt.setDouble(5, temperature);
-			stmt.setDouble(6, blood_pressure);
+			stmt.setDouble(6, bloodPressure);
 			stmt.setString(7, note);
 
 			stmt.executeUpdate();
-			return new HealthRecord(recordNumber, username, date, weight, temperature, blood_pressure, note);
+			return new HealthRecord(recordNumber, username, date, weight, temperature, bloodPressure, note);
 
 		}
 	}
@@ -77,7 +77,7 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	public Record_List viewRecords(String username) throws SQLException {
 		Record_List record_List = new Record_List();
-		System.out.println("View Records called");
+//		System.out.println("View Records called");
 
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? ORDER BY date DESC, recordNumber DESC";
 		try (Connection connection = Database.getConnection();
