@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -134,6 +135,16 @@ public class HomeController {
 				message.setTextFill(Color.RED);
 			}
 		});
+		
+		clearSelection.setOnAction(event -> {
+			recordTableController.onClearSelection();
+		});
+		
+		selectAll.setOnAction(event -> {
+			recordTableController.onSelectAll();
+		});
+		
+		
 
 	}
 	
@@ -176,17 +187,26 @@ public class HomeController {
 				writer.newLine();
 				writer.newLine();
 			}
-			writer.write("==================================================");
+			writer.write("=========================================================");
 			writer.newLine();
             writer.write("End of Report");
             writer.newLine();
-            writer.write("===================================");
+            writer.write("=========================================================");
             
             writer.close();
+            
+            recordTableController.onClearSelection();
+            
+            showAlert(Alert.AlertType.INFORMATION,
+                    "Download Complete",
+                    records.size() + " record(s) saved to:\n" + file.getAbsolutePath());
 			
 		} catch (IOException e) {
 			message.setText(e.getMessage());
 			message.setTextFill(Color.RED);
+//			showAlert(Alert.AlertType.ERROR,
+//                    "Download Failed",
+//                    "Could not save records. Please try again.");
 		}
 	}
 	
@@ -226,6 +246,13 @@ public class HomeController {
 
 	}
 	
+	private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 	
 
 	public void showStage(Pane root) {

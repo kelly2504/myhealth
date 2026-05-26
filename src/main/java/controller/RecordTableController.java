@@ -24,21 +24,21 @@ public class RecordTableController {
 	private Stage stage;
 	private Model model;
 	
-	private final List<HealthRecord> selected_records = new ArrayList<>();
+	private final List<HealthRecord> selectedRecords = new ArrayList<>();
 	@FXML
-	private TableView<HealthRecord> records_table;
+	private TableView<HealthRecord> recordsTable;
 	@FXML
-	private TableColumn<HealthRecord, Void> select_record;
+	private TableColumn<HealthRecord, Void> selectRecord;
 	@FXML
-	private TableColumn<HealthRecord, String> record_number;
+	private TableColumn<HealthRecord, String> recordNumber;
 	@FXML
-	private TableColumn<HealthRecord, String> record_date;
+	private TableColumn<HealthRecord, String> recordDate;
 	@FXML
-	private TableColumn<HealthRecord, String> record_note;
+	private TableColumn<HealthRecord, String> recordNote;
 	@FXML
-	private TableColumn<HealthRecord, Void> view_record;
+	private TableColumn<HealthRecord, Void> viewRecord;
 	@FXML
-	private TableColumn<HealthRecord, Void> delete_record;
+	private TableColumn<HealthRecord, Void> deleteRecord;
 	
 	public RecordTableController() {
 		
@@ -73,17 +73,17 @@ public class RecordTableController {
 	
 	//checkbox to download record
 	private void selectRecord() {
-		select_record.setCellFactory(col -> new TableCell<HealthRecord, Void>(){
+		selectRecord.setCellFactory(col -> new TableCell<HealthRecord, Void>(){
 			private final CheckBox checkBox = new CheckBox(); {
 				checkBox.setOnAction(event -> {
 					HealthRecord record = getTableRow().getItem();
 					if (record != null) {
 						if (checkBox.isSelected()) {
-							if (!selected_records.contains(record)) {
-								selected_records.add(record);
+							if (!selectedRecords.contains(record)) {
+								selectedRecords.add(record);
 							}
 						} else {
-							selected_records.remove(record);
+							selectedRecords.remove(record);
 						}
 					}
 				});
@@ -96,7 +96,7 @@ public class RecordTableController {
 	                setGraphic(null); 
 	            } else {
 	                // Keep checkbox in sync with selected_records
-	                checkBox.setSelected(selected_records.contains(getTableRow().getItem()));
+	                checkBox.setSelected(selectedRecords.contains(getTableRow().getItem()));
 	                setGraphic(checkBox); 
 	            }
 	        }
@@ -106,7 +106,7 @@ public class RecordTableController {
 	
 	//button to view record
 	private void viewRecord() {
-		view_record.setCellFactory(col -> new TableCell<HealthRecord, Void>() {
+		viewRecord.setCellFactory(col -> new TableCell<HealthRecord, Void>() {
 			private final Button btn = new Button("View");
 			{
 				btn.setOnAction(event ->{
@@ -142,7 +142,7 @@ public class RecordTableController {
 	
 	//button to delete record
 	private void deleteRecord() {
-		delete_record.setCellFactory(col -> new TableCell<HealthRecord, Void>(){
+		deleteRecord.setCellFactory(col -> new TableCell<HealthRecord, Void>(){
 			private final Button btn = new Button("Delete");
 			{
 				btn.setOnAction(event -> {
@@ -172,10 +172,25 @@ public class RecordTableController {
 		});
 	}
 	
+	@FXML
+    public void onSelectAll() {
+        selectedRecords.clear();
+        selectedRecords.addAll(recordsTable.getItems());
+        recordsTable.refresh(); // refresh to update checkbox states
+//        System.out.println("All records selected: " + selectedRecords.size());
+    }
+
+    @FXML
+    public void onClearSelection() {
+        selectedRecords.clear();
+        recordsTable.refresh(); // refresh to uncheck all checkboxes
+//        System.out.println("Selection cleared");
+    }
+	
 	private void setUpColumns() {
-		record_number.setCellValueFactory(new PropertyValueFactory<>("record_number"));
-		record_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-		record_note.setCellValueFactory(new PropertyValueFactory<>("note"));	
+		recordNumber.setCellValueFactory(new PropertyValueFactory<>("record_number"));
+		recordDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		recordNote.setCellValueFactory(new PropertyValueFactory<>("note"));	
 	}
 	
 	public void loadCurrentUser() {
@@ -193,7 +208,7 @@ public class RecordTableController {
 	    
 		    user.setRecords(fetchedList);
 		    
-		    records_table.setItems(user.getRecords().getObservableList());
+		    recordsTable.setItems(user.getRecords().getObservableList());
 			       
 		} catch (NullPointerException e) {
 			System.err.println(e);
@@ -201,6 +216,6 @@ public class RecordTableController {
 	}
 	
 	public List<HealthRecord> getSelectedRecords() {
-		return selected_records;
+		return selectedRecords;
 	}
 }

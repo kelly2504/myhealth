@@ -1,11 +1,18 @@
 package controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
@@ -66,6 +73,16 @@ public class RecordController {
 		note.setText(record.getNote());
 		
 		// TODO : IMPLEMENT DOWNLOAD
+		download.setOnAction(event -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save Record: " + record.getRecord_number());
+			fileChooser.setInitialFileName(record.getRecord_number() + ".txt");
+			fileChooser.getExtensionFilters().add(
+					new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+			
+			File file = fileChooser.showSaveDialog(stage);
+			SaveRecordToFile(file);
+		});
 		
 		// TODO : IMPLEMENT GOBACK
 		go_back.setOnAction(e -> {
@@ -74,6 +91,45 @@ public class RecordController {
 		});
 		
 		
+	}
+	
+	private void SaveRecordToFile(File file) {
+		User user = model.getCurrentUser();
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			//Patient Main Information
+			writer.write("========================================================");
+			writer.newLine();
+			writer.write("                   MyHealth                         ");
+			writer.newLine();
+			writer.write("Patient Info:");
+			writer.newLine();
+			writer.write("Username: " + user.getUsername());
+			writer.newLine();
+			writer.write("Fullname: " + user.getFirstname() + " " + user.getLastname());
+			writer.newLine();
+			writer.write("=========================================================");
+			writer.newLine();
+			writer.newLine();
+			writer.write("Patient Records: ");
+			writer.newLine();
+			writer.newLine();
+			writer.write("Record Number : " + record.getRecord_number());
+			writer.newLine();
+			writer.write("Date:         : " + record.getDate().toString());
+			writer.newLine();
+			writer.write("Weight        : " + record.getWeight());
+			writer.newLine();
+			writer.write("Temperature   : " + record.getTemperature());
+			writer.newLine();
+			writer.write("Blood pressure: " + record.getBlood_pressure());
+			writer.newLine();
+			writer.write("Note          : " + record.getNote());
+			writer.newLine();
+			writer.close();
+		} catch (IOException e) {
+			message.setText(e.getMessage());
+			message.setTextFill(Color.RED);
+		}
 	}
 	
 	public void showStage(Pane root) {
