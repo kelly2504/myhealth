@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
-import model.Record_List;
+import model.RecordList;
 import model.User;
 
 public class AddRecordController {
@@ -61,10 +61,10 @@ public class AddRecordController {
 			//default values based on previous 
 		
 			if (user.getRecords() != null) {
-				HealthRecord last_record = user.getRecords().get_latest_record();
+				HealthRecord last_record = user.getRecords().getLatestRecord();
 				tempWeight = last_record.getWeight();
 				tempTemperature = last_record.getTemperature();
-				tempBloodPressure = last_record.getBlood_pressure();
+				tempBloodPressure = last_record.getBloodPressure();
 				tempNote = last_record.getNote();
 			}
 			
@@ -148,11 +148,11 @@ public class AddRecordController {
 				if (record != null) {
 					//add record to user's list
 					if (user.getRecords() == null) {
-						Record_List record_list = new Record_List();
-						record_list.add_record(record);
+						RecordList record_list = new RecordList();
+						record_list.addRecord(record);
 						user.setRecords(record_list);
 					} else {
-						user.getRecords().add_record(record);
+						user.getRecords().addRecord(record);
 					}
 					
 					

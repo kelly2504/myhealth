@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane alignment="BOTTOM_RIGHT" layoutY="55.0" prefHeight="450.0" prefWidth="600.0">
@@ -111,13 +110,13 @@
                   <Font name="Times New Roman" size="14.0" />
                </font>
             </Text>
-            <Text fx:id="blood_pressure" strokeType="OUTSIDE" strokeWidth="0.0" text="blood_pressure" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Text fx:id="bloodPressure" strokeType="OUTSIDE" strokeWidth="0.0" text="blood_pressure" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font name="Times New Roman" size="14.0" />
                </font>
             </Text>
             <Button fx:id="download" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Download" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-            <Button fx:id="go_back" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+            <Button fx:id="goBack" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
             <Text fx:id="note" strokeType="OUTSIDE" strokeWidth="0.0" text="note" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font name="Times New Roman" size="14.0" />

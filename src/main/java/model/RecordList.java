@@ -6,19 +6,19 @@ import javafx.collections.ObservableList;
 import java.util.Comparator;
 
 //stores the record that belongs specifically to a certain user
-public class Record_List {
+public class RecordList {
 //	ArrayList<HealthRecord> records;
 	private final ObservableList<HealthRecord> records = FXCollections.observableArrayList();
 	
 	
-	public Record_List() {
+	public RecordList() {
 	}
 	
-	public void add_record(HealthRecord record) {
+	public void addRecord(HealthRecord record) {
 		records.add(record);
 	}
 	
-	public boolean remove_record(HealthRecord record) {
+	public boolean removeRecord(HealthRecord record) {
 		if (records.contains(record)) {
 			records.remove(record);
 			return true;
@@ -27,7 +27,7 @@ public class Record_List {
 		return false;
 	}
 	
-	public HealthRecord get_latest_record() {
+	public HealthRecord getLatestRecord() {
 		//TODO IMPLEMENT STREAM TO SORT/COMPARE THROUGH THE MAP AND GET THE LASTEST RECORD BASED ON DATE
 //		return records.getLast();
 		//returns null if list is empty
@@ -36,11 +36,11 @@ public class Record_List {
 				.orElse(null);
 	}
 	
-	public int get_length() {
+	public int getLength() {
 		return records.size();
 	}
 	
-	public HealthRecord get_record_at_index(int index) {
+	public HealthRecord getRecordAtIndex(int index) {
 		return records.get(index);
 	}
 	

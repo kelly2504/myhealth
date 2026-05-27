@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,13 +36,13 @@ public class RecordController {
 	@FXML
 	private Text temperature;
 	@FXML
-	private Text blood_pressure;
+	private Text bloodPressure;
 	@FXML
 	private Text note;
 	@FXML
 	private Button download;
 	@FXML
-	private Button go_back;
+	private Button goBack;
 	@FXML
 	private Button edit;
 	@FXML
@@ -69,10 +70,10 @@ public class RecordController {
 		fullname.setText(user.getLastname() + " " + user.getFirstname());
 		weight.setText(String.valueOf(record.getWeight()));
 		temperature.setText(String.valueOf(record.getTemperature()));
-		blood_pressure.setText(String.valueOf(record.getBlood_pressure()));
+		bloodPressure.setText(String.valueOf(record.getBloodPressure()));
 		note.setText(record.getNote());
 		
-		// TODO : IMPLEMENT DOWNLOAD
+		//DOWNLOAD 1 FILE
 		download.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Save Record: " + record.getRecord_number());
@@ -84,8 +85,26 @@ public class RecordController {
 			SaveRecordToFile(file);
 		});
 		
-		// TODO : IMPLEMENT GOBACK
-		go_back.setOnAction(e -> {
+		//EDIT FILE
+		edit.setOnAction(event -> {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecordUpdateView.fxml"));
+				RecordUpdateController recordUpdateController = new RecordUpdateController(stage, model, record);
+				
+				loader.setController(recordUpdateController);
+				Pane root = loader.load();
+				
+				recordUpdateController.showStage(root);
+			} catch (IOException e) {
+				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
+			}
+			
+			
+		});
+		
+		// GO BACK TO DASHBOARD
+		goBack.setOnAction(e -> {
 			stage.close();
 			parentStage.show();
 		});
@@ -121,7 +140,7 @@ public class RecordController {
 			writer.newLine();
 			writer.write("Temperature   : " + record.getTemperature());
 			writer.newLine();
-			writer.write("Blood pressure: " + record.getBlood_pressure());
+			writer.write("Blood pressure: " + record.getBloodPressure());
 			writer.newLine();
 			writer.write("Note          : " + record.getNote());
 			writer.newLine();

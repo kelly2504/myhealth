@@ -27,7 +27,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
-import model.Record_List;
+import model.RecordList;
 import model.User;
 
 public class HomeController {
@@ -88,7 +88,6 @@ public class HomeController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
 			MenuBarController menuBarController = new MenuBarController(stage, model);
 			
-			
 			loader.setController(menuBarController);
 			Node menuBarNode = loader.load();
 			
@@ -144,8 +143,6 @@ public class HomeController {
 			recordTableController.onSelectAll();
 		});
 		
-		
-
 	}
 	
 	// creates layout for record - and writes it to the file
@@ -181,7 +178,7 @@ public class HomeController {
 				writer.newLine();
 				writer.write("Temperature   : " + record.getTemperature());
 				writer.newLine();
-				writer.write("Blood pressure: " + record.getBlood_pressure());
+				writer.write("Blood pressure: " + record.getBloodPressure());
 				writer.newLine();
 				writer.write("Note          : " + record.getNote());
 				writer.newLine();
@@ -207,6 +204,9 @@ public class HomeController {
 //			showAlert(Alert.AlertType.ERROR,
 //                    "Download Failed",
 //                    "Could not save records. Please try again.");
+		} catch (NullPointerException e) {
+			message.setText(e.getMessage());
+			message.setTextFill(Color.RED);
 		}
 	}
 	
@@ -229,7 +229,7 @@ public class HomeController {
 			recordTableController.loadUserRecords();
 			
 			// Show message if no records found
-	        if (model.getCurrentUser().getRecords().get_length() == 0) {
+	        if (model.getCurrentUser().getRecords().getLength() == 0) {
 	            message.setText("No records found. Please add a record.");
 	        }
 
@@ -243,7 +243,6 @@ public class HomeController {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
-
 	}
 	
 	private void showAlert(Alert.AlertType type, String title, String message) {
@@ -253,7 +252,6 @@ public class HomeController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-	
 
 	public void showStage(Pane root) {
 		Scene scene = new Scene(root, 800, 700);

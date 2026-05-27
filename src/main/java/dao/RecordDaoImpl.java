@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.HealthRecord;
-import model.Record_List;
+import model.RecordList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class RecordDaoImpl implements RecordDao {
 	private final String TABLE_NAME = "records";
 
 	// each user has their own record list
-	private final Map<String, Record_List> userRecordLists = new HashMap<>();
+	private final Map<String, RecordList> userRecordLists = new HashMap<>();
 
 	public RecordDaoImpl() {
 	}
@@ -75,8 +75,8 @@ public class RecordDaoImpl implements RecordDao {
 	}
 
 	@Override
-	public Record_List viewRecords(String username) throws SQLException {
-		Record_List record_List = new Record_List();
+	public RecordList viewRecords(String username) throws SQLException {
+		RecordList record_List = new RecordList();
 //		System.out.println("View Records called");
 
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? ORDER BY date DESC, recordNumber DESC";
@@ -92,12 +92,12 @@ public class RecordDaoImpl implements RecordDao {
 					record.setDate(rs.getDate("date").toLocalDate());
 					record.setWeight(rs.getDouble("weight"));
 					record.setTemperature(rs.getDouble("temperature"));
-					record.setBlood_pressure(rs.getDouble("bloodpressure"));
+					record.setBloodPressure(rs.getDouble("bloodpressure"));
 					record.setNote(rs.getString("note"));
 
 					// add to list of records
 					System.out.println(rs.getString("recordNumber") + " added!");
-					record_List.add_record(record);
+					record_List.addRecord(record);
 				}
 
 			}

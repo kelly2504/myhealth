@@ -9,26 +9,26 @@ public class HealthRecord {
 	// * blood pressure
 	// * short textual note
 	private String username;
-	private String record_number;
+	private String recordNumber;
 	private double weight;
 	private double temperature;
-	private double blood_pressure;
+	private double bloodPressure;
 	private String note;
 	private LocalDate date;
 	
 	public HealthRecord() {
 		weight = 0.0;
 		temperature = 0.0;
-		blood_pressure = 0.0;
+		bloodPressure = 0.0;
 		note = "Nothing to note";
 	}
 	
-	public HealthRecord(String record_number,String username, LocalDate date, double weight, double temperature, double blood_pressure, String note) {
-		this.record_number = record_number;
+	public HealthRecord(String recordNumber,String username, LocalDate date, double weight, double temperature, double bloodPressure, String note) {
+		this.recordNumber = recordNumber;
 		this.username = username;
 		this.weight = weight;
 		this.temperature = temperature;
-		this.blood_pressure = blood_pressure;
+		this.bloodPressure = bloodPressure;
 		this.note = note;
 		this.date = date;
 	}
@@ -49,12 +49,12 @@ public class HealthRecord {
 		this.temperature = temperature;
 	}
 
-	public double getBlood_pressure() {
-		return blood_pressure;
+	public double getBloodPressure() {
+		return bloodPressure;
 	}
 
-	public void setBlood_pressure(double blood_pressure) {
-		this.blood_pressure = blood_pressure;
+	public void setBloodPressure(double blood_pressure) {
+		this.bloodPressure = bloodPressure;
 	}
 
 	public String getNote() {
@@ -82,10 +82,10 @@ public class HealthRecord {
 	}
 
 	public String getRecord_number() {
-		return record_number;
+		return recordNumber;
 	}
 
-	public void setRecord_number(String record_number) {
-		this.record_number = record_number;
+	public void setRecord_number(String recordNumber) {
+		this.recordNumber = recordNumber;
 	}
 }

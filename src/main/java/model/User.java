@@ -5,7 +5,7 @@ public class User {
 	private String firstname; //added user's first name
 	private String lastname; //added user's last name
 	private String password;
-	private Record_List records; //added a list of records
+	private RecordList records; //added a list of records
 
 	public User() {
 	}
@@ -17,7 +17,7 @@ public class User {
 		this.password = password;
 		
 		//set up list of records for the user 
-		records = new Record_List();
+		records = new RecordList();
 		
 	}
 	
@@ -58,15 +58,15 @@ public class User {
 		this.lastname = lastname;
 	}
 
-	public Record_List getRecords() {
+	public RecordList getRecords() {
 		return records;
 	}
 
-	public void setRecords(Record_List new_records) {
-		records = new Record_List();
-		for (int i = 0; i < new_records.get_length(); i++) {
-			System.out.println(new_records.get_record_at_index(i).getRecord_number());
-			records.add_record(new_records.get_record_at_index(i));
+	public void setRecords(RecordList new_records) {
+		records = new RecordList();
+		for (int i = 0; i < new_records.getLength(); i++) {
+			System.out.println(new_records.getRecordAtIndex(i).getRecord_number());
+			records.addRecord(new_records.getRecordAtIndex(i));
 		}
 	}
 }

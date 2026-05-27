@@ -104,7 +104,7 @@
                </GridPane.margin>
             </Text>
             <Button fx:id="save" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-            <Button fx:id="go_back" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+            <Button fx:id="goBack" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
             <Label fx:id="message" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
@@ -128,7 +128,7 @@
             </HBox>
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <TextField fx:id="blood_pressure" prefHeight="25.0" prefWidth="189.0" promptText="currrentBloodPressure" />
+                  <TextField fx:id="bloodPressure" prefHeight="25.0" prefWidth="189.0" promptText="currrentBloodPressure" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="mmHg">
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />

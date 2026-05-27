@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
-import model.Record_List;
+import model.RecordList;
 import model.User;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -154,7 +154,7 @@ public class RecordTableController {
 							model.getRecordDao()
 							.deleteRecord(record.getRecord_number(), record.getUser());
 							
-							model.getCurrentUser().getRecords().remove_record(record);
+							model.getCurrentUser().getRecords().removeRecord(record);
 							
 							
 						} catch (SQLException e) {
@@ -204,7 +204,7 @@ public class RecordTableController {
 	public void loadUserRecords() throws SQLException {
 		User user = model.getCurrentUser();
 		try {
-		    Record_List fetchedList = model.getRecordDao().viewRecords(user.getUsername());
+		    RecordList fetchedList = model.getRecordDao().viewRecords(user.getUsername());
 	    
 		    user.setRecords(fetchedList);
 		    
