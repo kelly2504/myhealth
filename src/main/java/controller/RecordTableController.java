@@ -19,6 +19,7 @@ import model.RecordList;
 import model.User;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
 
 public class RecordTableController {
 	private Stage stage;
@@ -39,6 +40,7 @@ public class RecordTableController {
 	private TableColumn<HealthRecord, Void> viewRecord;
 	@FXML
 	private TableColumn<HealthRecord, Void> deleteRecord;
+	private boolean confirmDelete = false;
 	
 	public RecordTableController() {
 		
@@ -61,10 +63,7 @@ public class RecordTableController {
 	public void initialize() {
 
 		selectRecord();
-		
-		System.out.println("Setting up table columns");
 		setUpColumns();
-		System.out.println("Set up table columns");
 		
 		viewRecord();
 			
@@ -103,7 +102,7 @@ public class RecordTableController {
 		});
 		
 	}
-	
+	//TODO - REPLACE ALL PRINT OUT TO A MESSAGE
 	//button to view record
 	private void viewRecord() {
 		viewRecord.setCellFactory(col -> new TableCell<HealthRecord, Void>() {
@@ -121,6 +120,7 @@ public class RecordTableController {
 							RecordController recordController = new RecordController(stage, model, record);
 							loader.setController(recordController);
 							Pane root = loader.load();
+							
 							recordController.showStage(root);
 							
 								
@@ -142,26 +142,41 @@ public class RecordTableController {
 	
 	//button to delete record
 	private void deleteRecord() {
+		
 		deleteRecord.setCellFactory(col -> new TableCell<HealthRecord, Void>(){
 			private final Button btn = new Button("Delete");
-			{
+			{	
 				btn.setOnAction(event -> {
+					try {
+						FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteConfirmationView.fxml"));
+						DeleteConfirmationController dCC = new DeleteConfirmationController(stage);
+						loader.setController(dCC);
+						VBox root = loader.load();
+						confirmDelete = dCC.showAndWait(root);
+					} catch (IOException e) {
+						System.err.println(e.getMessage());
+					}
 					
-					HealthRecord record = getTableRow().getItem();
-					
-					if (record != null) {
-						try {
-							model.getRecordDao()
-							.deleteRecord(record.getRecord_number(), record.getUser());
-							
-							model.getCurrentUser().getRecords().removeRecord(record);
-							
-							
-						} catch (SQLException e) {
-							System.err.println("Delete failed: " + e.getMessage());
+					if (confirmDelete) {
+						HealthRecord record = getTableRow().getItem();
+						
+						if (record != null) {
+							try {
+								model.getRecordDao()
+								.deleteRecord(record.getRecord_number(), record.getUser());
+								
+								model.getCurrentUser().getRecords().removeRecord(record);
+								//TODO - deletion verification
+						
+								
+							} catch (SQLException e) {
+								System.err.println("Delete failed: " + e.getMessage());
+							}
 						}
 					}
-				});		
+				});
+				
+						
 			}
 			
 			@Override

@@ -96,20 +96,31 @@ public class RecordDaoImpl implements RecordDao {
 					record.setNote(rs.getString("note"));
 
 					// add to list of records
-					System.out.println(rs.getString("recordNumber") + " added!");
+					//System.out.println(rs.getString("recordNumber") + " added!");
 					record_List.addRecord(record);
 				}
 
 			}
 
 		}
-		System.out.println("returning list!");
+		
 		return record_List;
 
 	}
 
-	public void updateDetails() {
-
+	@Override
+	public void updateDetails(String recordNumber, double weight, double temperature, double bloodPressure, String note) throws SQLException {
+		String sql = "UPDATE " + TABLE_NAME + " SET weight = ?, temperature = ?, bloodpressure = ?, note = ? WHERE recordNumber = ?";
+		try (Connection connection = Database.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setDouble(1, weight);
+			stmt.setDouble(2, temperature);
+			stmt.setDouble(3, bloodPressure);
+			stmt.setString(4, note);
+			stmt.setString(5, recordNumber);
+			
+			stmt.executeUpdate();	
+		}
 	}
 
 }

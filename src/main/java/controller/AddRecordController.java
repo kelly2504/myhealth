@@ -130,6 +130,7 @@ public class AddRecordController {
 					if (words.length > 50) {
 						message.setText("Note should be not be more than 50 words.");
 						message.setTextFill(Color.RED);
+						return;
 					}	
 					
 				}
@@ -177,6 +178,7 @@ public class AddRecordController {
 			parentStage.show();
 		});
 	}
+	
 	
 	
 	public void showStage(Pane root) {

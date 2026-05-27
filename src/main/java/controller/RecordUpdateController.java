@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.SQLException;
+
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -119,6 +121,19 @@ public class RecordUpdateController {
 			}
 			
 			//TODO - ADD SQL For updating records
+			try {
+				model.getRecordDao().updateDetails(record.getRecord_number(), tempWeight, tempTemperature, tempBloodPressure, tempNote);
+				
+				record.setWeight(tempWeight);
+				record.setTemperature(tempTemperature);
+				record.setBloodPressure(tempBloodPressure);
+				
+				message.setText("Record updated!");
+				message.setTextFill(Color.GREEN);
+			} catch (SQLException e) {
+				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
+			}
 			
 		});
 		
