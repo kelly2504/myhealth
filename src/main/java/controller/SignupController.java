@@ -90,6 +90,7 @@ public class SignupController {
 				
 				User user;
 				try {
+					//passes in the user fields to the Database
 					user = model.getUserDao().createUser(username.getText(), firstname.getText(), lastname.getText(), password.getText());
 					
 					if (user != null) {
@@ -101,6 +102,7 @@ public class SignupController {
 						status.setTextFill(Color.RED);
 					}
 					
+					//clears the form after 
 					username.clear();
 					firstname.clear();
 					lastname.clear();
