@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import Utils.FileManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -70,19 +71,21 @@ public class RecordController {
 		fullname.setText(user.getLastname() + " " + user.getFirstname());
 		weight.setText(String.valueOf(record.getWeight()));
 		temperature.setText(String.valueOf(record.getTemperature()));
-		bloodPressure.setText(String.valueOf(record.getBloodPressure()));
+		bloodPressure.setText(String.valueOf(record.getSystolic()) + "/" + String.valueOf(record.getDiastolic()));
 		note.setText(record.getNote());
 		
 		//DOWNLOAD 1 FILE
 		download.setOnAction(event -> {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Save Record: " + record.getRecord_number());
-			fileChooser.setInitialFileName(record.getRecord_number() + ".txt");
-			fileChooser.getExtensionFilters().add(
-					new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+			FileManager fileManager = new FileManager(stage, model);
+			try {
+				fileManager.SaveRecordToFile(record);
+				message.setText("Your file has been successfully downloaded");
+				message.setTextFill(Color.GREEN);
+			} catch (NullPointerException e){
+				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
+			}
 			
-			File file = fileChooser.showSaveDialog(stage);
-			SaveRecordToFile(file);
 		});
 		
 		//EDIT FILE
@@ -96,6 +99,7 @@ public class RecordController {
 				
 				recordUpdateController.showStage(root);
 			} catch (IOException e) {
+				System.err.println(e.getMessage());
 				message.setText(e.getMessage());
 				message.setTextFill(Color.RED);
 			}
@@ -112,49 +116,11 @@ public class RecordController {
 		
 	}
 	
-	private void SaveRecordToFile(File file) {
-		User user = model.getCurrentUser();
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-			//Patient Main Information
-			writer.write("========================================================");
-			writer.newLine();
-			writer.write("                   MyHealth                         ");
-			writer.newLine();
-			writer.write("Patient Info:");
-			writer.newLine();
-			writer.write("Username: " + user.getUsername());
-			writer.newLine();
-			writer.write("Fullname: " + user.getFirstname() + " " + user.getLastname());
-			writer.newLine();
-			writer.write("=========================================================");
-			writer.newLine();
-			writer.newLine();
-			writer.write("Patient Records: ");
-			writer.newLine();
-			writer.newLine();
-			writer.write("Record Number : " + record.getRecord_number());
-			writer.newLine();
-			writer.write("Date:         : " + record.getDate().toString());
-			writer.newLine();
-			writer.write("Weight        : " + record.getWeight());
-			writer.newLine();
-			writer.write("Temperature   : " + record.getTemperature());
-			writer.newLine();
-			writer.write("Blood pressure: " + record.getBloodPressure());
-			writer.newLine();
-			writer.write("Note          : " + record.getNote());
-			writer.newLine();
-			writer.close();
-		} catch (IOException e) {
-			message.setText(e.getMessage());
-			message.setTextFill(Color.RED);
-		}
-	}
 	
 	public void showStage(Pane root) {
 		Scene scene = new Scene(root, 600, 500);
 		stage.setScene(scene);
-		stage.setResizable(false);
+		stage.setResizable(true);
 		stage.setTitle("Record: " + record.getRecord_number());
 		stage.show();
 	}

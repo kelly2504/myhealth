@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.Pane;
@@ -37,6 +38,8 @@ public class ProfileController {
 	private Label message;
 	@FXML
 	private VBox menuBarContainer;
+	@FXML
+	private Button changePassword;
 	
 	
 	public ProfileController(Stage stage, Model model){
@@ -51,46 +54,12 @@ public class ProfileController {
 		firstname.setText(user.getFirstname());
 		lastname.setText(user.getLastname());
 		
-//		homepage.setOnAction(event -> {
-//			try {
-//				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DashboardView.fxml"));
-//				HomeController homeController = new HomeController(stage, model);
-//				
-//				loader.setController(homeController);
-//				VBox root = loader.load();
-//
-//				homeController.showStage(root);
-//				stage.close();
-//			}catch (IOException e) {
-//				message.setText(e.getMessage());	
-//				message.setTextFill(Color.RED);
-//			}
-//		});
-//		
-//		updateProfile.setOnAction(event -> {
-//			try {
-//				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateProfileView.fxml"));
-//				
-//				UpdateProfileController updateController = new UpdateProfileController(stage, model);
-//				loader.setController(updateController);
-//				GridPane root = loader.load();
-//				
-//				updateController.showStage(root);
-//			} catch (IOException e) {
-//				message.setText(e.getMessage());
-//				message.setTextFill(Color.RED);
-//			}
-//		
-//		});
-		
+
+		//load menu bar 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
 			MenuBarController menuBarController = new MenuBarController(stage, model);
 			
-//			menuBarController.setOnError(msg -> {
-//	            message.setText(msg);
-//	            message.setTextFill(Color.RED);
-//	        });
 			loader.setController(menuBarController);
 			
 			Node menuBarNode = loader.load();
@@ -100,6 +69,26 @@ public class ProfileController {
 			message.setText(e.getMessage());
 			message.setTextFill(Color.RED);
 		}
+		
+		
+		//button to change the password
+		changePassword.setOnAction(event -> {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ChangePasswordView.fxml"));
+				ChangePasswordController pwdController = new ChangePasswordController(stage, model);
+				
+				loader.setController(pwdController);
+				GridPane root = loader.load();
+				
+				pwdController.ShowStage(root);
+			} catch (IOException e) {
+				message.setText(e.getMessage());
+				message.setTextFill(Color.RED);
+			}
+			
+			
+			
+		});
 		
 	}
 	

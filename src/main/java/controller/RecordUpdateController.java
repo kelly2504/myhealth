@@ -30,8 +30,12 @@ public class RecordUpdateController {
 	private TextField weight;
 	@FXML
 	private TextField temperature;
+//	@FXML
+//	private TextField bloodPressure;
+	@FXML 
+	private TextField systolic;
 	@FXML
-	private TextField bloodPressure;
+	private TextField diastolic;
 	@FXML
 	private TextArea note;
 	@FXML
@@ -66,7 +70,9 @@ public class RecordUpdateController {
 		
 		weight.setPromptText(String.valueOf(record.getWeight()));
 		temperature.setPromptText(String.valueOf(record.getTemperature()));
-		bloodPressure.setPromptText(String.valueOf(record.getBloodPressure()));
+		//bloodPressure.setPromptText(String.valueOf(record.getBloodPressure()));
+		systolic.setPromptText(String.valueOf(record.getSystolic()));
+		diastolic.setPromptText(String.valueOf(record.getDiastolic()));
 		note.setPromptText(record.getNote());
 		
 		//save new record details -> send them to RecordDao -> SQL updateDetails
@@ -74,14 +80,16 @@ public class RecordUpdateController {
 			message.setText("save button clicked");
 			double tempWeight = record.getWeight();
 			double tempTemperature = record.getTemperature();
-			double tempBloodPressure = record.getBloodPressure();
+			int tempSystolic = record.getSystolic();
+			int tempDiastolic = record.getDiastolic();
+			//double tempBloodPressure = record.getBloodPressure();
 			String tempNote = record.getNote();
 			
 			//TODO - creaate new class with AddRecord that allows for value checking - to lower code duplication
 			// or double format checker ?
 			
 			//if any field has value in it
-			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !bloodPressure.getText().isEmpty() && !note.getText().isEmpty()) {
+			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
 				if (!weight.getText().isEmpty()) {
 					try {
 						tempWeight = Double.parseDouble(weight.getText());
@@ -102,13 +110,27 @@ public class RecordUpdateController {
 					}
 				}
 				
-				if (!bloodPressure.getText().isEmpty()) {
+//				if (!bloodPressure.getText().isEmpty()) {
+//					try {
+//						tempBloodPressure = Double.parseDouble(bloodPressure.getText());
+//					} catch (NumberFormatException e) {
+//						message.setText(e.getMessage());
+//						message.setTextFill(Color.RED);
+//					}
+//				}
+				
+				if (!systolic.getText().isEmpty() && !diastolic.getText().isEmpty()) {
 					try {
-						tempBloodPressure = Double.parseDouble(bloodPressure.getText());
+						tempSystolic = Integer.parseInt(systolic.getText());
+						tempDiastolic = Integer.parseInt(diastolic.getText());
 					} catch (NumberFormatException e) {
 						message.setText(e.getMessage());
 						message.setTextFill(Color.RED);
 					}
+				} else if (!systolic.getText().isEmpty() || !diastolic.getText().isEmpty()) {
+					message.setText("Please fill both systolic and diastolic values for blood pressure");
+					message.setTextFill(Color.RED);
+					return;
 				}
 				
 				//TODO Make a note checker - to see if 50+ words are being entered
@@ -122,12 +144,14 @@ public class RecordUpdateController {
 			
 			//TODO - ADD SQL For updating records
 			try {
-				model.getRecordDao().updateDetails(record.getRecord_number(), tempWeight, tempTemperature, tempBloodPressure, tempNote);
+				model.getRecordDao().updateDetails(record.getRecord_number(), tempWeight, tempTemperature, tempSystolic, tempDiastolic, tempNote);
 				
 				record.setWeight(tempWeight);
 				record.setTemperature(tempTemperature);
-				record.setBloodPressure(tempBloodPressure);
-				
+//				record.setBloodPressure(tempBloodPressure);
+				record.setSystolic(tempSystolic);
+				record.setDiastolic(tempDiastolic);
+				record.setNote(tempNote);
 				message.setText("Record updated!");
 				message.setTextFill(Color.GREEN);
 			} catch (SQLException e) {

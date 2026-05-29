@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
+import Utils.PasswordFormatChecker;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,48 +46,15 @@ public class SignupController {
 	public void initialize() {
 		createUser.setOnAction(event -> {
 			if (!username.getText().isEmpty() && !password.getText().isEmpty()) {
-				/*
-				 * A password should : 
-				 * 	1. Be at least 8 characters long
-				 *  2. include letters, numbers and at least one character and 
-				 *   one upper letter 
-				 *   */
+				//check if password is in the right format
+				PasswordFormatChecker pwdChecker = new PasswordFormatChecker();
+				String pwdMsg = pwdChecker.checkPassword(password.getText());
 				
-				boolean hasSpecial = false;
-				boolean hasDigit = false;
-				boolean hasUpper = false;
-				boolean hasAlpha = false;
-				
-				String pwd = password.getText();
-				if (pwd.length() < 8)  { 
-					status.setText("Invalid Password. Password needs to contain at least 8 characters!");
+				if (!pwdMsg.equals("Good")) {
+					status.setText(pwdMsg);
 					status.setTextFill(Color.RED);
 					return;
 				}
-					
-				// password validation
-				for (int i = 0; i < pwd.length(); ++i) {
-					if (Character.isDigit(pwd.charAt(i)) ) {
-						hasDigit = true;
-					} else if (Character.isLetter(pwd.charAt(i))) {
-						hasAlpha = true;
-						if (Character.isUpperCase(pwd.charAt(i))) {
-							hasUpper = true;
-						}
-						//already filtered digits and characters - else special char or whitespace
-					} else if (!Character.isWhitespace(pwd.charAt(i))) {
-							hasSpecial = true;
-					}
-				}
-					
-				// actually apply the validations made
-				if (!(hasSpecial && hasDigit && hasUpper && hasAlpha)) {
-					
-					status.setText("\tInvalid Password.\n Your password should contain letters, digits, an uppercase letter and at least one special character");
-					status.setTextFill(Color.RED);
-					return;
-				}
-				
 				
 				User user;
 				try {

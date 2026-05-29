@@ -12,23 +12,29 @@ public class HealthRecord {
 	private String recordNumber;
 	private double weight;
 	private double temperature;
-	private double bloodPressure;
+//	private double bloodPressure;
+	private int systolic;
+	private int diastolic;
 	private String note;
 	private LocalDate date;
 	
 	public HealthRecord() {
 		weight = 0.0;
 		temperature = 0.0;
-		bloodPressure = 0.0;
+//		bloodPressure = 0.0;
+		systolic = 0;
+		diastolic = 0;
 		note = "Nothing to note";
 	}
 	
-	public HealthRecord(String recordNumber,String username, LocalDate date, double weight, double temperature, double bloodPressure, String note) {
+	public HealthRecord(String recordNumber,String username, LocalDate date, double weight, double temperature,int systolic, int diastolic, String note) {
 		this.recordNumber = recordNumber;
 		this.username = username;
 		this.weight = weight;
 		this.temperature = temperature;
-		this.bloodPressure = bloodPressure;
+//		this.bloodPressure = bloodPressure;
+		this.systolic = systolic;
+		this.diastolic = diastolic;
 		this.note = note;
 		this.date = date;
 	}
@@ -49,13 +55,13 @@ public class HealthRecord {
 		this.temperature = temperature;
 	}
 
-	public double getBloodPressure() {
-		return bloodPressure;
-	}
-
-	public void setBloodPressure(double blood_pressure) {
-		this.bloodPressure = bloodPressure;
-	}
+//	public double getBloodPressure() {
+//		return bloodPressure;
+//	}
+//
+//	public void setBloodPressure(double bloodPressure) {
+//		this.bloodPressure = bloodPressure;
+//	}
 
 	public String getNote() {
 		return note;
@@ -87,5 +93,25 @@ public class HealthRecord {
 
 	public void setRecord_number(String recordNumber) {
 		this.recordNumber = recordNumber;
+	}
+
+	public int getSystolic() {
+		return systolic;
+	}
+
+	public void setSystolic(int systolic) {
+		this.systolic = systolic;
+	}
+
+	public int getDiastolic() {
+		return diastolic;
+	}
+
+	public void setDiastolic(int diastolic) {
+		this.diastolic = diastolic;
+	}
+	
+	public String getBloodPressure() {
+	    return systolic + "/" + diastolic;
 	}
 }

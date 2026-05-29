@@ -25,8 +25,12 @@ public class AddRecordController {
 	private TextField weight;
 	@FXML
 	private TextField temperature;
+//	@FXML
+//	private TextField bloodPressure;
 	@FXML
-	private TextField bloodPressure;
+	private TextField systolic;
+	@FXML
+	private TextField diastolic;
 	@FXML
 	private TextArea note;
 	@FXML
@@ -54,22 +58,26 @@ public class AddRecordController {
 			
 			double tempWeight = 0.0;
 			double tempTemperature = 0.0;
-			double tempBloodPressure = 0.0;
+//			double tempBloodPressure = 0.0;
+			int tempSystolic = 0;
+			int tempDiastolic = 0;
 			String tempNote = "";
 			
 			
 			//default values based on previous 
 		
-			if (user.getRecords() != null) {
+			if (!user.getRecords().getObservableList().isEmpty()) {
 				HealthRecord last_record = user.getRecords().getLatestRecord();
 				tempWeight = last_record.getWeight();
 				tempTemperature = last_record.getTemperature();
-				tempBloodPressure = last_record.getBloodPressure();
+//				tempBloodPressure = last_record.getBloodPressure();
+				tempSystolic = last_record.getSystolic();
+				tempDiastolic = last_record.getDiastolic();
 				tempNote = last_record.getNote();
 			}
 			
 			//check if all the textfields are empty - message at least one of the text fields have to change
-			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !bloodPressure.getText().isEmpty() && !note.getText().isEmpty()) {
+			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
 				//TODO: ADD PROPER VALIDATION FOR INPUTS 
 				if (!weight.getText().isEmpty()) {
 					try {
@@ -104,21 +112,27 @@ public class AddRecordController {
 					}
 				}
 				
-				if (!bloodPressure.getText().isEmpty()) {
+				if (!systolic.getText().isEmpty() && !diastolic.getText().isEmpty()) {
 					try {
-						tempBloodPressure = Double.parseDouble(bloodPressure.getText());
+						tempSystolic = Integer.parseInt(systolic.getText());
+						tempDiastolic = Integer.parseInt(diastolic.getText());
+						
 					} catch (NumberFormatException e) {
-						message.setText("Blood pressure should be a valid number");
+						message.setText("Blood pressure should have valid values");
 						message.setTextFill(Color.RED);
 						return;
 					}
 					
-					if (tempBloodPressure < 0 || tempBloodPressure > 300) {
-						message.setText("Blood pressure invalid");
+					if (tempSystolic < 0 || tempSystolic > 200 || tempDiastolic < 0 || tempDiastolic > 150) {
+						message.setText("Invalid blood pressure values");
 						message.setTextFill(Color.RED);
 						return;
 					}
-					
+						
+				} else if (!systolic.getText().isEmpty() || !diastolic.getText().isEmpty()) {
+					message.setText("Blood pressure should have both values filled in");
+					message.setTextFill(Color.RED);
+					return;
 				}
 				
 				if (!note.getText().isEmpty()) {
@@ -144,7 +158,7 @@ public class AddRecordController {
 			HealthRecord record;
 			//get recordDao to create new record then add it to the record list of the user.
 			try {
-				record = model.getRecordDao().addRecord(user.getUsername(), tempWeight, tempTemperature, tempBloodPressure, tempNote);
+				record = model.getRecordDao().addRecord(user.getUsername(), tempWeight, tempTemperature, tempSystolic, tempDiastolic, tempNote);
 				
 				if (record != null) {
 					//add record to user's list

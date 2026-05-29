@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import Utils.PasswordManager;
 import model.User;
 
 public class UserDaoImpl implements UserDao {
@@ -26,20 +27,23 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUser(String username, String password) throws SQLException {
-		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? AND password = ?";
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
 		try (Connection connection = Database.getConnection(); 
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			stmt.setString(1, username);
-			stmt.setString(2, password);
 			
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
-					User user = new User();
-					user.setUsername(rs.getString("username"));
-					user.setFirstname(rs.getString("firstname"));
-					user.setLastname(rs.getString("lastname"));
-					user.setPassword(rs.getString("password"));
-					return user;
+					
+					String storedPassword = rs.getString("password");
+					if (PasswordManager.verifyPassword(password, storedPassword) ) {
+						User user = new User();
+						user.setUsername(rs.getString("username"));
+						user.setFirstname(rs.getString("firstname"));
+						user.setLastname(rs.getString("lastname"));
+						user.setPassword(rs.getString("password"));
+						return user;
+					}
 				}
 				return null;
 			} 
@@ -51,13 +55,15 @@ public class UserDaoImpl implements UserDao {
 		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?,?, ?, ?)";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
+			
+			String hashedPassword = PasswordManager.hashPassword(password);
 			stmt.setString(1, username);
 			stmt.setString(2, firstname);
 			stmt.setString(3, lastname);
-			stmt.setString(4, password);
+			stmt.setString(4, hashedPassword);
 
 			stmt.executeUpdate();
-			return new User(username, firstname, lastname, password);
+			return new User(username, firstname, lastname, hashedPassword);
 		} 
 	}
 	
@@ -104,9 +110,21 @@ public class UserDaoImpl implements UserDao {
 				stmt.setString(2, username);
 				stmt.setString(3, password);
 				
+				stmt.executeUpdate();	
+				
+			}
+		}
+		
+		@Override
+		public void updatePassword(String username, String newPassword) throws SQLException {
+			String sql = "UPDATE " + TABLE_NAME + " SET password = ? WHERE username = ?";
+			try (Connection connection = Database.getConnection();
+					PreparedStatement stmt = connection.prepareStatement(sql);) {
+				String hashedPassword = PasswordManager.hashPassword(newPassword);
+				stmt.setString(1, hashedPassword);
+				stmt.setString(2, username);
+				
 				stmt.executeUpdate();
-				
-				
 			}
 		}
 	

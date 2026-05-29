@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import Utils.RecordNumberGenerator;
 import model.HealthRecord;
 import model.RecordList;
 
@@ -28,7 +29,7 @@ public class RecordDaoImpl implements RecordDao {
 			// TODO: IMPLEMENT ACTUAL SQL TO CREATE RECORD TABLE
 			String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (recordNumber VARCHAR(7) NOT NULL,"
 					+ " username VARCHAR(10) NOT NULL," + " date DATETIME NOT NULL," + " weight DECIMAL,"
-					+ " temperature DECIMAL," + " bloodpressure DECIMAL," + " note VARCHAR(250), "
+					+ " temperature DECIMAL," + " systolic INTEGER," + " diastolic INTEGER, " + " note VARCHAR(250), "
 					+ "PRIMARY KEY (recordNumber))";
 			stmt.executeUpdate(sql);
 		}
@@ -36,9 +37,9 @@ public class RecordDaoImpl implements RecordDao {
 	}
 
 	@Override
-	public HealthRecord addRecord(String username, double weight, double temperature, double bloodPressure,
+	public HealthRecord addRecord(String username, double weight, double temperature, int systolic, int diastolic,
 			String note) throws SQLException {
-		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 
@@ -52,11 +53,13 @@ public class RecordDaoImpl implements RecordDao {
 			stmt.setDate(3, java.sql.Date.valueOf(date));
 			stmt.setDouble(4, weight);
 			stmt.setDouble(5, temperature);
-			stmt.setDouble(6, bloodPressure);
-			stmt.setString(7, note);
+//			stmt.setDouble(6, bloodPressure);
+			stmt.setInt(6, systolic);
+			stmt.setInt(7, diastolic);
+			stmt.setString(8, note);
 
 			stmt.executeUpdate();
-			return new HealthRecord(recordNumber, username, date, weight, temperature, bloodPressure, note);
+			return new HealthRecord(recordNumber, username, date, weight, temperature, systolic, diastolic, note);
 
 		}
 	}
@@ -92,16 +95,16 @@ public class RecordDaoImpl implements RecordDao {
 					record.setDate(rs.getDate("date").toLocalDate());
 					record.setWeight(rs.getDouble("weight"));
 					record.setTemperature(rs.getDouble("temperature"));
-					record.setBloodPressure(rs.getDouble("bloodpressure"));
+//					record.setBloodPressure(rs.getDouble("bloodpressure"));
+					record.setSystolic(rs.getInt("systolic"));
+					record.setDiastolic(rs.getInt("diastolic"));
 					record.setNote(rs.getString("note"));
 
 					// add to list of records
 					//System.out.println(rs.getString("recordNumber") + " added!");
 					record_List.addRecord(record);
 				}
-
 			}
-
 		}
 		
 		return record_List;
@@ -109,15 +112,16 @@ public class RecordDaoImpl implements RecordDao {
 	}
 
 	@Override
-	public void updateDetails(String recordNumber, double weight, double temperature, double bloodPressure, String note) throws SQLException {
-		String sql = "UPDATE " + TABLE_NAME + " SET weight = ?, temperature = ?, bloodpressure = ?, note = ? WHERE recordNumber = ?";
+	public void updateDetails(String recordNumber, double weight, double temperature, int systolic, int diastolic, String note) throws SQLException {
+		String sql = "UPDATE " + TABLE_NAME + " SET weight = ?, temperature = ?, systolic = ?, diastolic = ? , note = ? WHERE recordNumber = ?";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setDouble(1, weight);
 			stmt.setDouble(2, temperature);
-			stmt.setDouble(3, bloodPressure);
-			stmt.setString(4, note);
-			stmt.setString(5, recordNumber);
+			stmt.setInt(3, systolic);
+			stmt.setInt(4, diastolic);
+			stmt.setString(5, note);
+			stmt.setString(6, recordNumber);
 			
 			stmt.executeUpdate();	
 		}

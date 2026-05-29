@@ -17,4 +17,5 @@ public interface UserDao {
 	void changeDetails(String username, String firstname, String lastname, String password) throws SQLException;
 	void changeDetails(String username, String firstname, String password) throws SQLException;
 	void changeDetails(String username, String lastname, String password, int i) throws SQLException;
+	public void updatePassword(String username, String newPassword) throws SQLException;
 }

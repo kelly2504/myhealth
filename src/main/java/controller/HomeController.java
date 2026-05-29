@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Utils.FileManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -119,15 +120,17 @@ public class HomeController {
 		downloadRecord.setOnAction(event -> {
 			List<HealthRecord> records = recordTableController.getSelectedRecords();
 			if (!records.isEmpty()) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Save Records");
-				fileChooser.setInitialFileName("health_records.txt");
-				fileChooser.getExtensionFilters().add(
-						new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-				
-				File file = fileChooser.showSaveDialog(stage);
-				SaveRecordsToFile(records, file);
-				
+
+				FileManager fileManager = new FileManager(stage, model);
+				try {
+					fileManager.SaveRecordToFile(records);
+		            
+		            //keep if no error shown 
+		            recordTableController.onClearSelection();
+				} catch (NullPointerException e){
+					message.setText("Could not download file");
+					message.setTextFill(Color.RED);
+				}	
 				
 			} else {
 				message.setText("You have not selected any records to download");
@@ -144,71 +147,7 @@ public class HomeController {
 		});
 		
 	}
-	
-	// creates layout for record - and writes it to the file
-	private void SaveRecordsToFile(List<HealthRecord> records, File file) {
-		User user = model.getCurrentUser();
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-			//Patient Main Information
-			writer.write("========================================================");
-			writer.newLine();
-			writer.write("                   MyHealth                         ");
-			writer.newLine();
-			writer.write("Patient Info:");
-			writer.newLine();
-			writer.write("Username: " + user.getUsername());
-			writer.newLine();
-			writer.write("Fullname: " + user.getFirstname() + " " + user.getLastname());
-			writer.newLine();
-			writer.write("=========================================================");
-			writer.newLine();
-			writer.newLine();
-			writer.write("Patient Records: ");
-			writer.newLine();
-			
-			
-			for (HealthRecord record : records) {
-				writer.write("---------------------------------------------------------");
-				writer.newLine();
-				writer.write("Record Number : " + record.getRecord_number());
-				writer.newLine();
-				writer.write("Date:         : " + record.getDate().toString());
-				writer.newLine();
-				writer.write("Weight        : " + record.getWeight());
-				writer.newLine();
-				writer.write("Temperature   : " + record.getTemperature());
-				writer.newLine();
-				writer.write("Blood pressure: " + record.getBloodPressure());
-				writer.newLine();
-				writer.write("Note          : " + record.getNote());
-				writer.newLine();
-				writer.newLine();
-			}
-			writer.write("=========================================================");
-			writer.newLine();
-            writer.write("End of Report");
-            writer.newLine();
-            writer.write("=========================================================");
-            
-            writer.close();
-            
-            recordTableController.onClearSelection();
-            
-            showAlert(Alert.AlertType.INFORMATION,
-                    "Download Complete",
-                    records.size() + " record(s) saved to:\n" + file.getAbsolutePath());
-			
-		} catch (IOException e) {
-			message.setText(e.getMessage());
-			message.setTextFill(Color.RED);
-//			showAlert(Alert.AlertType.ERROR,
-//                    "Download Failed",
-//                    "Could not save records. Please try again.");
-		} catch (NullPointerException e) {
-			message.setText(e.getMessage());
-			message.setTextFill(Color.RED);
-		}
-	}
+
 	
 	//Loads the record table on the dashboard
 	public void loadTable() {
@@ -244,14 +183,7 @@ public class HomeController {
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
 	public void showStage(Pane root) {
 		Scene scene = new Scene(root, 800, 700);
