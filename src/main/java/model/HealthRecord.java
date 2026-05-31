@@ -24,7 +24,7 @@ public class HealthRecord {
 //		bloodPressure = 0.0;
 		systolic = 0;
 		diastolic = 0;
-		note = "Nothing to note";
+		note = "";
 	}
 	
 	public HealthRecord(String recordNumber,String username, LocalDate date, double weight, double temperature,int systolic, int diastolic, String note) {

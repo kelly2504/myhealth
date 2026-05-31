@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane prefHeight="284.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="284.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="148.5" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.5" minWidth="10.0" prefWidth="351.5" />
@@ -29,11 +29,17 @@
          <GridPane.margin>
             <Insets bottom="5.0" top="5.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Serif Regular" size="13.0" />
+         </font>
       </Text>
       <Label fx:id="first" prefHeight="17.0" prefWidth="169.0" text="Firstname" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="5.0" top="5.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Serif Regular" size="13.0" />
+         </font>
       </Label>
       <TextField fx:id="firstname" prefHeight="25.0" prefWidth="406.0" promptText="Enter firstname" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <opaqueInsets>
@@ -47,6 +53,9 @@
          <GridPane.margin>
             <Insets bottom="5.0" top="5.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Serif Regular" size="13.0" />
+         </font>
       </Label>
       <TextField fx:id="lastname" promptText="Enter lastname" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <opaqueInsets>
@@ -58,7 +67,7 @@
             <Insets top="30.0" />
          </opaqueInsets>
          <font>
-            <Font name="System Bold Italic" size="12.0" />
+            <Font name="Serif Bold Italic" size="14.0" />
          </font>
          <padding>
             <Insets bottom="10.0" top="10.0" />
@@ -77,6 +86,6 @@
       <Label fx:id="message" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>
    <padding>
-      <Insets bottom="20.0" left="20.0" right="80.0" top="20.0" />
+      <Insets bottom="20.0" left="30.0" right="80.0" top="20.0" />
    </padding>
 </GridPane>

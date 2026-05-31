@@ -66,9 +66,9 @@ public class RecordController {
 		date.setText(record.getDate().toString());
 		username.setText(user.getUsername());
 		fullname.setText(user.getLastname() + " " + user.getFirstname());
-		weight.setText(String.valueOf(record.getWeight()));
-		temperature.setText(String.valueOf(record.getTemperature()));
-		bloodPressure.setText(String.valueOf(record.getSystolic()) + "/" + String.valueOf(record.getDiastolic()));
+		weight.setText(String.valueOf(record.getWeight()) + " Kg");
+		temperature.setText(String.valueOf(record.getTemperature()) + " °C");
+		bloodPressure.setText(String.valueOf(record.getSystolic()) + "/" + String.valueOf(record.getDiastolic()) + " mmHg");
 		note.setText(record.getNote());
 		
 		//DOWNLOAD 1 FILE

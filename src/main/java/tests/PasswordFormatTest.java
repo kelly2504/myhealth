@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import Utils.PasswordFormatChecker;
 
-public class PasswordTest {
+public class PasswordFormatTest {
 	PasswordFormatChecker checker;
 	
 	//password format checks
@@ -20,6 +20,12 @@ public class PasswordTest {
 	@Test
 	public void validPasswordTest() {
 		assertEquals("Good", checker.checkPassword("Password123&"));
+	}
+	
+	//password too short
+	@Test
+	public void passwordTooShortTest() {
+		assertNotEquals("Good", checker.checkPassword("Pwd123*"));
 	}
 	
 	//password with no capital letter 

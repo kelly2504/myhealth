@@ -93,7 +93,7 @@ public class RecordUpdateController {
 			String tempNote = record.getNote();
 			
 			//if any field has value in it
-			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
+			if (!weight.getText().isEmpty() || !temperature.getText().isEmpty() || ( !systolic.getText().isEmpty() && !diastolic.getText().isEmpty()) || !note.getText().isEmpty()) {
 				
 				if (!weight.getText().isEmpty()) {
 					try {

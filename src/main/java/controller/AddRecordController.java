@@ -63,16 +63,16 @@ public class AddRecordController {
 				
 		submit.setOnAction(event -> {				
 			
-			//default values based on previous 
-			if (!user.getRecords().getObservableList().isEmpty()) {
-				HealthRecord last_record = user.getRecords().getLatestRecord();
-				tempWeight = last_record.getWeight();
-				tempTemperature = last_record.getTemperature();
+//			//default values based on previous 
+//			if (!user.getRecords().getObservableList().isEmpty()) {
+//				HealthRecord last_record = user.getRecords().getLatestRecord();
+//				tempWeight = last_record.getWeight();
+//				tempTemperature = last_record.getTemperature();
 //				tempBloodPressure = last_record.getBloodPressure();
-				tempSystolic = last_record.getSystolic();
-				tempDiastolic = last_record.getDiastolic();
-				tempNote = last_record.getNote();
-			}
+//				tempSystolic = last_record.getSystolic();
+//				tempDiastolic = last_record.getDiastolic();
+//				tempNote = last_record.getNote();
+//			}
 			
 			//reads the textfields and checks if they are correct values;
 			String valuesErrorMsg = getTextFieldValues();
@@ -116,10 +116,11 @@ public class AddRecordController {
 		});
 	}
 	
+	
 	public String getTextFieldValues() {
 		
 		//check if all the textfields are empty - message at least one of the text fields have to change
-		if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
+		if (!weight.getText().isEmpty() || !temperature.getText().isEmpty() || (!systolic.getText().isEmpty() && !diastolic.getText().isEmpty() ) || !note.getText().isEmpty()) {
 			//TODO: ADD PROPER VALIDATION FOR INPUTS 
 			if (!weight.getText().isEmpty()) {
 				try {

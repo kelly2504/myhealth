@@ -1,7 +1,10 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.After;
@@ -47,6 +50,26 @@ public class UserTest {
 
 	
 	//password encryption test 
+	@Test
+	public void loginSuccess() throws SQLException {
+		//create user on signup
+		User user1 = model.getUserDao().createUser("Lily", "Lily", "Rose", "Password123*");
+		
+		//get the user on login and check if the user is received correctly
+		assertNotNull("User should not be null", model.getUserDao().getUser("Lily", "Password123*"));
+		
+//		User currentUser = model.getUserDao().getUser("Lily", "Password123*");
+	}
+	
+	@Test 
+	public void loginFailure() throws SQLException {
+		User user1 = model.getUserDao().createUser("Lily", "Lily", "Rose", "Password123*");
+		
+//		User currentUser = model.getUserDao().getUser("Lily", "Pudding123*");
+		assertNull("User should not be null", model.getUserDao().getUser("Lily", "Pudding123*"));
+		
+	}
+	
 	@After 
 	public void teardown() throws SQLException{
 		model.getUserDao().deleteUser("Lily");

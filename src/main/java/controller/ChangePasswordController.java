@@ -51,18 +51,22 @@ public class ChangePasswordController {
 				String currentPwd = oldPassword.getText();
 				String newPwd = newPassword.getText();
 				String confirmNewPwd = confirmNewPassword.getText();
-				if (!PasswordManager.verifyPassword(currentPwd, user.getPassword())) {
-					showError("Current password is incorrect");
+//				if (!PasswordManager.verifyPassword(currentPwd, user.getPassword())) {
+//					showError("Current password is incorrect");
+//					return;
+//				}
+//				
+//				if (!newPwd.equals(confirmNewPwd)) {
+//					showError("New passwords do not match");
+//					return;
+//				}
+//				
+//				if (PasswordManager.verifyPassword(newPwd, user.getPassword())) {
+//					showError("New password must be different from the old one");
+//					return;
+//				}
+				if (!validPassword(currentPwd, newPwd, confirmNewPwd)) {
 					return;
-				}
-				
-				if (!newPwd.equals(confirmNewPwd)) {
-					showError("New passwords do not match");
-					return;
-				}
-				
-				if (PasswordManager.verifyPassword(newPwd, user.getPassword())) {
-					showError("New password must be different from the old one");
 				}
 				
 				PasswordFormatChecker pwdChecker = new PasswordFormatChecker();
@@ -100,8 +104,28 @@ public class ChangePasswordController {
 		message.setTextFill(Color.RED);
 	}
 	
+	public boolean validPassword(String currentPwd, String newPwd, String confirmNewPwd) {
+		User user = model.getCurrentUser();
+		if (!PasswordManager.verifyPassword(currentPwd, user.getPassword())) {
+			showError("Current password is incorrect");
+			return false;
+		}
+		
+		if (!newPwd.equals(confirmNewPwd)) {
+			showError("New passwords do not match");
+			return false;
+		}
+		
+		if (PasswordManager.verifyPassword(newPwd, user.getPassword())) {
+			showError("New password must be different from the old one");
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public void ShowStage(GridPane root) {
-		Scene scene = new Scene(root, 500, 400);
+		Scene scene = new Scene(root, 600, 400);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Change Password");
