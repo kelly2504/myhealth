@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import Utils.FileManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -24,6 +23,7 @@ import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
 import model.User;
+import utils.FileManager;
 
 public class HomeController {
 	private Model model;

@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import Utils.RecordNumberGenerator;
 import model.HealthRecord;
 import model.RecordList;
+import utils.RecordNumberGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

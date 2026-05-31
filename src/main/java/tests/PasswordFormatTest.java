@@ -2,10 +2,11 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import utils.PasswordFormatChecker;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
-import Utils.PasswordFormatChecker;
 
 public class PasswordFormatTest {
 	PasswordFormatChecker checker;

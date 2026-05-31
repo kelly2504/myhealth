@@ -5,8 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import Utils.RecordValuesChecker;
-//import controller.AddRecordController;
+import utils.RecordValuesChecker;
 
 
 public class AddRecordTest {

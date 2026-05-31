@@ -83,10 +83,7 @@ public class ProfileController {
 			} catch (IOException e) {
 				message.setText(e.getMessage());
 				message.setTextFill(Color.RED);
-			}
-			
-			
-			
+			}	
 		});
 		
 	}

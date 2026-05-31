@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.SQLException;
 
-import Utils.PasswordFormatChecker;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Model;
 import model.User;
+import utils.PasswordFormatChecker;
 
 //TODO -- Allow user to enter their first name and last name 
 public class SignupController {

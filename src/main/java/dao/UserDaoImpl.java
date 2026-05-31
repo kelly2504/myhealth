@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Utils.PasswordManager;
 import model.User;
+import utils.PasswordManager;
 
 public class UserDaoImpl implements UserDao {
 	private final String TABLE_NAME = "users";

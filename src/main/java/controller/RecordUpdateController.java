@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.SQLException;
 
-import Utils.RecordValuesChecker;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +15,7 @@ import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
 import model.User;
+import utils.RecordValuesChecker;
 
 public class RecordUpdateController {
 	private Stage stage;

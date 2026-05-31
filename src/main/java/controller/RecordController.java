@@ -3,7 +3,6 @@ package controller;
 
 import java.io.IOException;
 
-import Utils.FileManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +15,7 @@ import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
 import model.User;
+import utils.FileManager;
 
 public class RecordController {
 	private Stage stage;
@@ -56,7 +56,6 @@ public class RecordController {
 		this.parentStage = parentStage;
 		this.model = model;
 		this.record = record;
-		
 	}
 	
 	@FXML

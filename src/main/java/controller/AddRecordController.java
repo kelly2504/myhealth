@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.SQLException;
 
-import Utils.RecordValuesChecker;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +15,7 @@ import model.HealthRecord;
 import model.Model;
 import model.RecordList;
 import model.User;
+import utils.RecordValuesChecker;
 
 public class AddRecordController {
 	private Model model;
@@ -173,15 +173,11 @@ public class AddRecordController {
 		return "";
 	}
 	
-	
-	
+
 	public void showError(String msg) {
 		message.setText(msg);
 		message.setTextFill(Color.RED);
 	}
-	
-	
-	
 	
 	public void showStage(Pane root) {
 		Scene scene = new Scene(root, 600, 500);
