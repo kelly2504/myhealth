@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -53,19 +52,17 @@ public class ChangePasswordController {
 				String newPwd = newPassword.getText();
 				String confirmNewPwd = confirmNewPassword.getText();
 				if (!PasswordManager.verifyPassword(currentPwd, user.getPassword())) {
-					message.setText("Current password is incorrect");
-					message.setTextFill(Color.RED);
+					showError("Current password is incorrect");
 					return;
 				}
 				
 				if (!newPwd.equals(confirmNewPwd)) {
-					message.setText("New passwords do not match");
-					message.setTextFill(Color.RED);
+					showError("New passwords do not match");
 					return;
 				}
 				
 				if (PasswordManager.verifyPassword(newPwd, user.getPassword())) {
-					message.setText("New password must be different from the old one");
+					showError("New password must be different from the old one");
 				}
 				
 				PasswordFormatChecker pwdChecker = new PasswordFormatChecker();
@@ -77,17 +74,14 @@ public class ChangePasswordController {
 						message.setText("Your password has been updated successfully!");
 						message.setTextFill(Color.GREEN);
 					} catch (SQLException e) {
-						message.setText(e.getMessage());
-						message.setTextFill(Color.RED);
+						showError(e.getMessage());
 					}
 				} else {
-					message.setText(passwordMsg);
-					message.setTextFill(Color.RED);
+					showError(passwordMsg);
 					return;
 				}
 			} else {
-				message.setText("Missing fields");
-				message.setTextFill(Color.RED);
+				showError("Missing fields");
 			}
 			
 			
@@ -99,7 +93,11 @@ public class ChangePasswordController {
 			stage.close();
 			parentStage.show();
 		});
-		
+	}
+	
+	public void showError(String msg) {
+		message.setText(msg);
+		message.setTextFill(Color.RED);
 	}
 	
 	public void ShowStage(GridPane root) {

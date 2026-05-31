@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
+import Utils.RecordValuesChecker;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -50,22 +51,19 @@ public class AddRecordController {
 		this.parentStage = parentStage;
 	}
 	
+	double tempWeight = 0.0;
+	double tempTemperature = 0.0;
+	int tempSystolic = 0;
+	int tempDiastolic = 0;
+	String tempNote = "";
+	
 	@FXML
 	public void initialize() {
 		User user = model.getCurrentUser();
 				
-		submit.setOnAction(event -> {
-			
-			double tempWeight = 0.0;
-			double tempTemperature = 0.0;
-//			double tempBloodPressure = 0.0;
-			int tempSystolic = 0;
-			int tempDiastolic = 0;
-			String tempNote = "";
-			
+		submit.setOnAction(event -> {				
 			
 			//default values based on previous 
-		
 			if (!user.getRecords().getObservableList().isEmpty()) {
 				HealthRecord last_record = user.getRecords().getLatestRecord();
 				tempWeight = last_record.getWeight();
@@ -76,82 +74,10 @@ public class AddRecordController {
 				tempNote = last_record.getNote();
 			}
 			
-			//check if all the textfields are empty - message at least one of the text fields have to change
-			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
-				//TODO: ADD PROPER VALIDATION FOR INPUTS 
-				if (!weight.getText().isEmpty()) {
-					try {
-						tempWeight = Double.parseDouble(weight.getText());
-					} catch (NumberFormatException e) {
-						message.setText("Weight should be a valid number");
-						message.setTextFill(Color.RED);
-						return;
-					}	
-					
-					if (tempWeight < 0 || tempWeight > 1000) {
-						message.setText("Weight invalid");
-						message.setTextFill(Color.RED);
-						return;
-					}
-				}
-				
-				if (!temperature.getText().isEmpty()) {
-					try {
-						tempTemperature = Double.parseDouble(temperature.getText());
-					} catch (NumberFormatException e){
-						message.setText("Temperature should be a vaid number");
-						message.setTextFill(Color.RED);
-						return;
-					}
-					
-					
-					if (tempTemperature < 0 || tempTemperature > 50) {
-						message.setText("Temperature Invalid");
-						message.setTextFill(Color.RED);
-						return;
-					}
-				}
-				
-				if (!systolic.getText().isEmpty() && !diastolic.getText().isEmpty()) {
-					try {
-						tempSystolic = Integer.parseInt(systolic.getText());
-						tempDiastolic = Integer.parseInt(diastolic.getText());
-						
-					} catch (NumberFormatException e) {
-						message.setText("Blood pressure should have valid values");
-						message.setTextFill(Color.RED);
-						return;
-					}
-					
-					if (tempSystolic < 0 || tempSystolic > 200 || tempDiastolic < 0 || tempDiastolic > 150) {
-						message.setText("Invalid blood pressure values");
-						message.setTextFill(Color.RED);
-						return;
-					}
-						
-				} else if (!systolic.getText().isEmpty() || !diastolic.getText().isEmpty()) {
-					message.setText("Blood pressure should have both values filled in");
-					message.setTextFill(Color.RED);
-					return;
-				}
-				
-				if (!note.getText().isEmpty()) {
-					//TODO: verify less 50 words
-					
-					tempNote = note.getText();
-					
-					String[] words = tempNote.trim().split(" ");
-					if (words.length > 50) {
-						message.setText("Note should be not be more than 50 words.");
-						message.setTextFill(Color.RED);
-						return;
-					}	
-					
-				}
-					
-			} else {
-				message.setText("At least one record metric should be entered");
-				message.setTextFill(Color.RED);
+			//reads the textfields and checks if they are correct values;
+			String valuesErrorMsg = getTextFieldValues();
+			if (!valuesErrorMsg.equals("")) {
+				showError(valuesErrorMsg);
 				return;
 			}
 			
@@ -175,14 +101,11 @@ public class AddRecordController {
 					message.setTextFill(Color.GREEN);
 					
 				} else {
-					message.setText("Could not add record");
-					message.setTextFill(Color.RED);
+					showError("Could not add record");
 				}
 				
 			} catch (SQLException e ) {
-				System.err.println(e.getMessage());
-				message.setText(e.getMessage());
-				message.setTextFill(Color.RED);
+				showError(e.getMessage());
 			}
 				
 		});
@@ -192,6 +115,70 @@ public class AddRecordController {
 			parentStage.show();
 		});
 	}
+	
+	public String getTextFieldValues() {
+		
+		//check if all the textfields are empty - message at least one of the text fields have to change
+		if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
+			//TODO: ADD PROPER VALIDATION FOR INPUTS 
+			if (!weight.getText().isEmpty()) {
+				try {
+					tempWeight = Double.parseDouble(weight.getText());
+				} catch (NumberFormatException e) {
+					
+					return "Weight should be a valid number";
+				}	
+			}
+			
+			if (!temperature.getText().isEmpty()) {
+				try {
+					tempTemperature = Double.parseDouble(temperature.getText());
+				} catch (NumberFormatException e){
+					return "Temperature should be a valid number";
+				}
+				
+			}
+			
+			if (!systolic.getText().isEmpty() && !diastolic.getText().isEmpty()) {
+				try {
+					tempSystolic = Integer.parseInt(systolic.getText());
+					tempDiastolic = Integer.parseInt(diastolic.getText());
+					
+				} catch (NumberFormatException e) {
+					return "Blood pressure should have valid values";
+				}
+				
+					
+			} else if (!systolic.getText().isEmpty() || !diastolic.getText().isEmpty()) {
+				return "Blood pressure should have both values filled in";
+			}
+			
+			if (!note.getText().isEmpty()) {
+				tempNote = note.getText();	
+			}
+			
+			//if values filled in properly, check if the values are correctly formatted
+			RecordValuesChecker valuesChecker = new RecordValuesChecker();
+			String msg = valuesChecker.checkRecords(tempWeight, tempTemperature, tempSystolic, tempDiastolic, tempNote);
+			
+			if (!msg.equals("Good")) {
+				return msg;
+			}
+				
+		} else {
+			return "At least one record metric should be entered";
+		}
+		
+		return "";
+	}
+	
+	
+	
+	public void showError(String msg) {
+		message.setText(msg);
+		message.setTextFill(Color.RED);
+	}
+	
 	
 	
 	

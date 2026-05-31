@@ -127,5 +127,16 @@ public class UserDaoImpl implements UserDao {
 				stmt.executeUpdate();
 			}
 		}
+		
+		@Override
+		public void deleteUser(String username) throws SQLException {
+			String sql = "DELETE FROM " + TABLE_NAME + " WHERE username = ? ";
+			try (Connection connection = Database.getConnection();
+					PreparedStatement stmt = connection.prepareStatement(sql);) {
+				stmt.setString(1, username);
+				
+				stmt.executeUpdate();
+			}
+		}
 	
 }

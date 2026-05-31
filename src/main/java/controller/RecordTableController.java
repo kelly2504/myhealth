@@ -147,6 +147,8 @@ public class RecordTableController {
 			private final Button btn = new Button("Delete");
 			{	
 				btn.setOnAction(event -> {
+					
+					//Pop up menu that verifies whether the user wants to delete the record
 					try {
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteConfirmationView.fxml"));
 						DeleteConfirmationController dCC = new DeleteConfirmationController(stage);
@@ -166,9 +168,6 @@ public class RecordTableController {
 								.deleteRecord(record.getRecord_number(), record.getUser());
 								
 								model.getCurrentUser().getRecords().removeRecord(record);
-								//TODO - deletion verification
-						
-								
 							} catch (SQLException e) {
 								System.err.println("Delete failed: " + e.getMessage());
 							}

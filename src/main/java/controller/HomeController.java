@@ -1,22 +1,18 @@
 package controller;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+
+
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import Utils.FileManager;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -24,11 +20,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.HealthRecord;
 import model.Model;
-import model.RecordList;
 import model.User;
 
 public class HomeController {
@@ -94,8 +88,7 @@ public class HomeController {
 			
 			menuBarContainer.getChildren().add(menuBarNode);
 		} catch (IOException e) {
-			message.setText(e.getMessage());
-			message.setTextFill(Color.RED);
+			showError(e.getMessage());
 		}
 
 		
@@ -111,8 +104,7 @@ public class HomeController {
 				addRecordController.showStage(root);
 
 			} catch (IOException e) {
-				message.setText(e.getMessage());
-				message.setTextFill(Color.RED);
+				showError(e.getMessage());
 			}
 		});
 		
@@ -128,13 +120,11 @@ public class HomeController {
 		            //keep if no error shown 
 		            recordTableController.onClearSelection();
 				} catch (NullPointerException e){
-					message.setText("Could not download file");
-					message.setTextFill(Color.RED);
+					showError("Could not download file");
 				}	
 				
 			} else {
-				message.setText("You have not selected any records to download");
-				message.setTextFill(Color.RED);
+				showError("You have not selected any records to download");
 			}
 		});
 		
@@ -169,7 +159,7 @@ public class HomeController {
 			
 			// Show message if no records found
 	        if (model.getCurrentUser().getRecords().getLength() == 0) {
-	            message.setText("No records found. Please add a record.");
+	            showError("No records found. Please add a record.");
 	        }
 
 			// Add the table to the container
@@ -177,13 +167,15 @@ public class HomeController {
 
 //            recordTableController.loadUserRecords(model.getCurrentUser());
 		} catch (IOException e) {
-			message.setText(e.getMessage());
-			message.setTextFill(Color.RED);
+			showError(e.getMessage());
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			showError(e.getMessage());
 		}
 	}
-
+	public void showError(String msg) {
+		message.setText(msg);
+		message.setTextFill(Color.RED);
+	}
 
 	public void showStage(Pane root) {
 		Scene scene = new Scene(root, 800, 700);

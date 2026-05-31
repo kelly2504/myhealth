@@ -60,22 +60,18 @@ public class LoginController {
 							homeController.showStage(root);
 							stage.close();
 						}catch (IOException e) {
-							message.setText(e.getMessage());
-							message.setTextFill(Color.RED);
+							showError(e.getMessage());
 						}
 						
 					} else {
-						message.setText("Wrong username or password");
-						message.setTextFill(Color.RED);
+						showError("Wrong username or password");
 					}
 				} catch (SQLException e) {
-					message.setText(e.getMessage());
-					message.setTextFill(Color.RED);
+					showError(e.getMessage());
 				}
 				
 			} else {
-				message.setText("Empty username or password");
-				message.setTextFill(Color.RED);
+				showError("Empty username or password");
 			}
 			name.clear();
 			password.clear();
@@ -99,8 +95,13 @@ public class LoginController {
 				
 				stage.close();
 			} catch (IOException e) {
-				message.setText(e.getMessage());
+				showError(e.getMessage());
 			}});
+	}
+	
+	public void showError(String msg) {
+		message.setText(msg);
+		message.setTextFill(Color.RED);
 	}
 	
 	public void showStage(Pane root) {

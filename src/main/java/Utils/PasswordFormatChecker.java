@@ -3,6 +3,7 @@ package Utils;
 import javafx.scene.paint.Color;
 
 public class PasswordFormatChecker {
+	
 	public String checkPassword(String password) {
 		/*
 		 * A password should : 

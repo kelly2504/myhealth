@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
+import Utils.RecordValuesChecker;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -47,6 +48,12 @@ public class RecordUpdateController {
 	@FXML
 	private Label message;
 	
+	//Minimum and Maximum Record Values
+	public static final double MIN_WEIGHT = 0.0;
+	public static final double MAX_WEIGHT = 1000;
+	
+	
+	
 	public RecordUpdateController() {
 		
 	}
@@ -85,17 +92,14 @@ public class RecordUpdateController {
 			//double tempBloodPressure = record.getBloodPressure();
 			String tempNote = record.getNote();
 			
-			//TODO - creaate new class with AddRecord that allows for value checking - to lower code duplication
-			// or double format checker ?
-			
 			//if any field has value in it
 			if (!weight.getText().isEmpty() && !temperature.getText().isEmpty() && !systolic.getText().isEmpty() && !diastolic.getText().isEmpty() && !note.getText().isEmpty()) {
+				
 				if (!weight.getText().isEmpty()) {
 					try {
 						tempWeight = Double.parseDouble(weight.getText());
 					} catch (NumberFormatException e) {
-						message.setText(e.getMessage());
-						message.setTextFill(Color.RED);
+						showError(e.getMessage());
 						return;
 					}
 				}
@@ -104,59 +108,61 @@ public class RecordUpdateController {
 					try {
 						tempTemperature = Double.parseDouble(temperature.getText());
 					} catch (NumberFormatException e) {
-						message.setText(e.getMessage());
-						message.setTextFill(Color.RED);
+						showError(e.getMessage());
 						return;
 					}
 				}
 				
-//				if (!bloodPressure.getText().isEmpty()) {
-//					try {
-//						tempBloodPressure = Double.parseDouble(bloodPressure.getText());
-//					} catch (NumberFormatException e) {
-//						message.setText(e.getMessage());
-//						message.setTextFill(Color.RED);
-//					}
-//				}
-				
+				//if blood pressure has been inserted - both systolic and diastolic should be inserted
 				if (!systolic.getText().isEmpty() && !diastolic.getText().isEmpty()) {
 					try {
 						tempSystolic = Integer.parseInt(systolic.getText());
 						tempDiastolic = Integer.parseInt(diastolic.getText());
+						
 					} catch (NumberFormatException e) {
-						message.setText(e.getMessage());
-						message.setTextFill(Color.RED);
+						//error thrown if not integer
+						showError(e.getMessage());
+						return;
 					}
+					
 				} else if (!systolic.getText().isEmpty() || !diastolic.getText().isEmpty()) {
-					message.setText("Please fill both systolic and diastolic values for blood pressure");
-					message.setTextFill(Color.RED);
+					showError("Please fill both systolic and diastolic values for blood pressure");
 					return;
 				}
 				
-				//TODO Make a note checker - to see if 50+ words are being entered
+				//if note has been inserted
 				if (!note.getText().isEmpty()) {
-					tempNote = note.getText();
+					tempNote = note.getText();	
 				}
-			} else {
-				message.setText("No value changed. Please enter a value to update details");
-				message.setTextFill(Color.RED);
+				
+				//if values filled in properly, check if the values are correctly formatted
+				RecordValuesChecker valuesChecker = new RecordValuesChecker();
+				String msg = valuesChecker.checkRecords(tempWeight, tempTemperature, tempSystolic, tempDiastolic, tempNote);
+				
+				if (!msg.equals("Good")) {
+					showError(msg);
+					return;
+				}
+				
+			}else {
+				showError("No value changed. Please enter a value to update details");
+				return;
 			}
 			
-			//TODO - ADD SQL For updating records
 			try {
 				model.getRecordDao().updateDetails(record.getRecord_number(), tempWeight, tempTemperature, tempSystolic, tempDiastolic, tempNote);
 				
+				//set new values for the records
 				record.setWeight(tempWeight);
 				record.setTemperature(tempTemperature);
-//				record.setBloodPressure(tempBloodPressure);
 				record.setSystolic(tempSystolic);
 				record.setDiastolic(tempDiastolic);
 				record.setNote(tempNote);
+				
 				message.setText("Record updated!");
 				message.setTextFill(Color.GREEN);
 			} catch (SQLException e) {
-				message.setText(e.getMessage());
-				message.setTextFill(Color.RED);
+				showError(e.getMessage());
 			}
 			
 		});
@@ -166,6 +172,11 @@ public class RecordUpdateController {
 			stage.close();
 			parentStage.show();
 		});
+	}
+	
+	public void showError(String msg) {
+		message.setText(msg);
+		message.setTextFill(Color.RED);
 	}
 	
 	public void showStage(Pane root) {
